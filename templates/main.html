@@ -1,0 +1,179 @@
+<!doctype html>
+  <html>
+    <head>
+      <title>{{ pages[0] }}</title>
+      <meta charset='windows-1251'>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-           ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=iHDXLgXu"></script>
+    </head>
+    <body>
+      <section class="container">
+
+        <div class="row text-center">
+          <div class="col-md-12">  
+            <img src="../static/bob_avatar.png" height="162" width="162"/> 
+            <h1><b>{{ pages[0] }}</b></h1> 
+          </div>
+        </div>
+       
+        <div class="row text-center">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <input type="text" name="user_input" id='user_input' autofocus><br><br>
+            <input type="submit" name="send_user_input" value="Talk to Viki" id="input_btn"/>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row text-center">
+          <div class="col-md-4"></div>
+          <div class="col-md-4" id="responseField">
+            <p id="response_text"><b>Viki is awaiting your order.</b></p><br><br>
+            <hr>
+            <span>{{ pages[1] }}</span>
+            <p id="acc_text"><b></b></p>
+            <span>{{ pages[2] }}</span><br>
+            <p id="total_price"></p>    
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+
+      <div class="row text-center">
+        <div class="col-md-12">
+          <p id="copyrightText">&#169; Lyubomir Mihaylov 2019</p>
+        </div>
+      </div>
+      
+      </section>
+    </body>
+    <style>
+        @font-face {
+          font-family: "mainFont";
+          src: url("../static/afterclap.otf"); 
+        }
+
+        @font-face {
+          font-family: "bobFont";
+          src: url("../static/nineteeth.otf"); 
+        }
+
+
+        body {
+          background-color:#ffcc66;
+        }
+
+        p, span {
+          font-family: ariel;
+          font-size: 20px;
+          color: #ffcc66;
+        }
+
+        #copyrightText{
+          margin-top: 155px;
+          font-size: 15px;
+          color:#ff3300;
+        }
+
+        h1 {
+          font-family: bobFont;
+          color: #ff3300;
+          margin-top: 10px;
+        }
+        
+        img {
+          margin-top: 40px;
+        }
+
+        #user_input {
+          font-family: ariel;
+          padding-left: 20px;
+          color: #ff3300;
+          width: 360px;
+          height: 40px;
+          border: solid;
+          border: 20px;
+          box-shadow: 5px 5px 8px #666;
+          border-radius: 10px;
+        }
+
+        #response_text {
+          font-size:20px;
+          color:#ffcc66;
+          word-wrap: break-word;
+          margin-top: 35px;
+        }
+
+        #input_btn {
+            color: #ff3300;
+            font-family: ariel;
+            width: 140px;
+            height: 50px;
+            border-color: #ff3300;
+            border-radius:10px;	
+        }
+
+        #responseField {
+          min-height: 70px;
+          margin-top: 15px;
+          background-color:#ff3300;
+          border:solid;
+          border:10px;
+          border-radius:10px;
+        }
+
+        #total_price {
+          color:##ffcc66;
+        }
+
+    </style>
+
+    <script>
+       var userInput, voicelist = responsiveVoice.getVoices();
+
+        // Empty the input field on load/reload.
+        $(document).ready(function() {
+            $("#user_input").val("");    
+        });
+
+       
+        responsiveVoice.setDefaultVoice("US English Female");
+        
+        // Do not refresh the page on submiting.
+        $("#prospects_form").submit(function(e) {
+            e.preventDefault();         
+        });
+
+        	
+        $("#input_btn").click(function(){
+            userInput = $("#user_input").val();
+            $.ajax({
+                type: "GET",
+                url: "/data",
+                data: {
+                'user_input' : userInput
+                },
+                success: function(result){
+                    responseStr = JSON.stringify(result[0]);
+                    resultStr1 = responseStr.slice(1,-1);
+                 
+                    $("#response_text").text(resultStr1);
+                    responsiveVoice.speak(document.getElementById("response_text").textContent);
+
+                    percentegeStr = JSON.stringify(result[1]) + "%";
+                    resultStr2 = percentegeStr.slice(1,-1);
+                    $("#acc_text").text(percentegeStr);    
+
+                    totalPriceStr = JSON.stringify(result[2] + "$");
+                    resultStr3 = totalPriceStr.slice(1,-1);
+                    $("#total_price").text(resultStr3);
+          
+                }, 
+                error: function (error) {
+                    $("p").text(error);
+                }   
+            });
+        });
+
+    </script>
+</html>
