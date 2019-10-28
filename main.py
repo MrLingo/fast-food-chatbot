@@ -48,8 +48,6 @@ price_dict = {
 
 @app.route('/data')
 def process_order():
-    
-
     global total_price
     user_input = request.args.get('user_input')
     temp_dict = {}
