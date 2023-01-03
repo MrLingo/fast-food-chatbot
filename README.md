@@ -2,7 +2,7 @@
 Chatbot that operates inside the fast food domain.
 
 
-![Image description](demo_pic.png)
+![Image description](demo_pic.PNG)
 
 ## How it works:
 
