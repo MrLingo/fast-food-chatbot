@@ -15,6 +15,7 @@ Chatbot that operates inside the fast food domain.
 ## Setup and run:
 1. Unzip the archive.
 2. Open terminal/command prompt inside the repo ( chatbot ) folder.
-3. `export FLASK_APP=main.py`
-4. `source venv/bin/activate`
-5. `flask run`
+3. `export FLASK_APP=main.py` (Unix system) / `set FLASK_APP=main.py` (Windows system)
+4. `flask run`
+5. Go to Browser and type `localhost:5000` in address bar.
+6. Chat
