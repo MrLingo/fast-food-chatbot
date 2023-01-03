@@ -1,6 +1,9 @@
 # Fast food chatbot - Viki
 Chatbot that operates inside the fast food domain.
 
+
+![Image description](demo_pic.png)
+
 ## How it works:
 
 1. Viki takes user input.
