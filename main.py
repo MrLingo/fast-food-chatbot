@@ -67,8 +67,10 @@ def process_order():
     accuracy = temp_dict[final_answer]
     
     ''' Calculating total price. '''
-    for product in price_dict:
-        if product in final_answer:
+    # Round to 2 digits 
+    for product in price_dict:        
+        if product.lower() in final_answer.lower():
+            print('total price:' , total_price)
             total_price = total_price + price_dict[product]
 
     ''' Reformating the accuracy ( show in %) '''
@@ -76,5 +78,5 @@ def process_order():
     accuracy = accuracy * 100
     response_list = [final_answer, accuracy, total_price]          
 
-    ''' Return Viki's response to the user! '''
+    ''' Return Viki's response to the user '''
     return jsonify(response_list)

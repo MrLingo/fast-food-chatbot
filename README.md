@@ -12,12 +12,15 @@ Chatbot that operates inside the fast food domain.
 
 ## Prerequisets:
 - Flask
-- Python 3.7 or later
+- Python >= 3.7
+- Anaconda
 
 ## Setup and run:
-1. Unzip the archive.
-2. Open terminal/command prompt inside the repo folder (where this ).
-3. `export FLASK_APP=main.py` (Unix system) / `set FLASK_APP=main.py` (Windows system)
-4. `flask run`
-5. Go to browser and type `localhost:5000` in address bar.
-6. Chat
+1. Unzip the archive\clone the repo
+2. Open terminal\command prompt inside the repo folder.
+3. `conda create -n viki-chatbot`
+4. `conda activate`
+5. `export FLASK_APP=main.py` (Unix system) \ `set FLASK_APP=main.py` (Windows system)
+6. `flask run`
+7. Go to browser and type `localhost:5000` in address bar.
+8. Chat

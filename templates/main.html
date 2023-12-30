@@ -109,7 +109,7 @@
           font-family: bobFont;
           width: 140px;
           height: 50px;
-		  border-width: 5px;
+		      border-width: 5px;
           border-color: #ff3300;
           border-radius:10px;	
         }
@@ -124,22 +124,18 @@
         }
 
         #total_price {
-          color:##ffcc66;
+          color: #ffcc66;
         }
 
     </style>
 
     <script>
-       var userInput, voicelist = responsiveVoice.getVoices();
-
         // Empty the input field on load/reload.
         $(document).ready(function() {
             $("#user_input").val("");    
         });
 
-       
-        responsiveVoice.setDefaultVoice("US English Female");
-        
+              
         // Do not refresh the page on submiting.
         $("#prospects_form").submit(function(e) {
             e.preventDefault();         
@@ -156,18 +152,21 @@
                 },
                 success: function(result){
                     responseStr = JSON.stringify(result[0]);
-                    resultStr1 = responseStr.slice(1,-1);
+                    console.log(result[0]);
+                    console.log(result[1]);
+                    console.log(result[2]);
+                    resultResponse = responseStr.slice(1,-1);
                  
-                    $("#response_text").text(resultStr1);
-                    responsiveVoice.speak(document.getElementById("response_text").textContent);
+                    $("#response_text").text(resultResponse);                  
 
                     percentegeStr = JSON.stringify(result[1]) + "%";
-                    resultStr2 = percentegeStr.slice(1,-1);
-                    $("#acc_text").text(percentegeStr);    
+                    
+                    resultPercentege = percentegeStr;
+                    $("#acc_text").text(resultPercentege);    
 
                     totalPriceStr = JSON.stringify(result[2] + "$");
-                    resultStr3 = totalPriceStr.slice(1,-1);
-                    $("#total_price").text(resultStr3);
+                    resultTotalPrice = totalPriceStr.slice(1,-1);
+                    $("#total_price").text(resultTotalPrice);
           
                 }, 
                 error: function (error) {
@@ -175,6 +174,5 @@
                 }   
             });
         });
-
     </script>
 </html>

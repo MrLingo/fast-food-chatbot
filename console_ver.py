@@ -4,7 +4,7 @@ import json
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-user_input = raw_input("Talk to Viki: ")
+user_input = input("Talk to Viki: ")
 temp_dict = {}
 
 
