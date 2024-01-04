@@ -159,14 +159,16 @@
                  
                     $("#response_text").text(resultResponse);                  
 
-                    percentegeStr = JSON.stringify(result[1]) + "%";
+                    percentegeStr = JSON.stringify(result[1]) + " %";
                     
                     resultPercentege = percentegeStr;
                     $("#acc_text").text(resultPercentege);    
 
-                    totalPriceStr = JSON.stringify(result[2] + "$");
-                    resultTotalPrice = totalPriceStr.slice(1,-1);
-                    $("#total_price").text(resultTotalPrice);
+                    resultTotalPrice = JSON.stringify(result[2]);
+
+                    // Precision
+                    resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
+                    $("#total_price").text(resultTotalPrice + " $");
           
                 }, 
                 error: function (error) {
