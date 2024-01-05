@@ -5,42 +5,50 @@
       <meta charset='windows-1251'>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-           ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.responsivevoice.org/responsivevoice.js?key=YOUR_UNIQUE_KEY"></script>
+      <script src="https://code.responsivevoice.org/responsivevoice.js?key=YOUR_UNIQUE_KEY"></script>
     </head>
     <body>
       <section class="container">
 
         <div class="row text-center">
           <div class="col-md-12">  
-            <img src="../static/viki_avatar.png" height="162" width="162"/> 
+            <img src="../static/viki_avatar.png" height="162" width="162"/>
             <h1><b>{{ pages[0] }}</b></h1> 
           </div>
         </div>
        
         <div class="row text-center">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <input type="text" name="user_input" id='user_input' autofocus><br><br>
-            <input type="submit" name="send_user_input" value="Talk to Viki" id="input_btn"/>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border:none;">
+            <input type="text" name="userInput" id='userInput' autofocus><br><br>
+            <!-- <input type="submit" name="send_user_input" value="Talk to Viki" id="input_btn"/> -->
+            <div style="border:solid;" id="inputBtn">Talk to Viki</div>
           </div>
-          <div class="col-md-4"></div>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
         </div>
         
         <div class="row text-center">
-          <div class="col-md-4"></div>
-          <div class="col-md-4" id="responseField">
-            <p id="response_text"><b>Viki is awaiting your order.</b></p><br><br>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" id="responseField">
+            <p id="responseText"><b>Viki is awaiting your order.</b></p><br><br>
             <hr>
             <span>{{ pages[1] }}</span>
-            <p id="acc_text"><b></b></p>
+            <p id="accText"><b></b></p>
             <span>{{ pages[2] }}</span><br>
-            <p id="total_price"></p>    
+            <p id="totalPrice"></p>    
           </div>
-          <div class="col-md-4"></div>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
         </div>
 
+      <!-- Generate receipt button -->
       <div class="row text-center">
-        <div class="col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div id="generateReceiptButton">Generate receipt</div>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <p id="copyrightText">&#169; Lyubomir Mihaylov</p>
         </div>
       </div>
@@ -69,9 +77,14 @@
           color: #ffcc66;
         }
 
+       .container {
+          margin-top: 200px;
+       }
+
         #copyrightText{
-          margin-top: 155px;
+          margin-top: 9em;
           font-size: 25px;
+          font-weight: bold;
           color:#ff3300;
         }
 
@@ -82,14 +95,15 @@
         }
         
         img {
-          margin-top: 40px;
+          margin-top: -5em;
         }
 
-        #user_input {
+        #userInput {
+          padding-left: 1em;
+          margin-top: 1em;
           font-family: ariel;
-          padding-left: 20px;
-          color: #ff3300;
-          width: 360px;
+          color: black;
+          width: 100%;
           height: 40px;
           border: solid;
           border: 20px;
@@ -97,42 +111,76 @@
           border-radius: 10px;
         }
 
-        #response_text {
+        #userInput:focus{
+          outline: none;
+          border: 2px solid #ff3300;
+        }
+
+        #responseText {
           font-size:20px;
           color:#ffcc66;
           word-wrap: break-word;
           margin-top: 35px;
         }
 
-        #input_btn {
-          color: #ff3300;
+        #inputBtn {
+          background: #ff3300;
+          display: inline-block;
+          padding-top: 0.6em;
+          color: #ffcc66;
           font-family: bobFont;
-          width: 140px;
+          width: 15em;
           height: 50px;
 		      border-width: 5px;
           border-color: #ff3300;
           border-radius:10px;	
+          cursor: pointer;
+        }
+
+        #generateReceiptButton {
+          margin-top: 3em;
+          background: #ff3300;
+          display: inline-block;
+          padding-top: 0.8em;
+          color: #ffcc66;
+          font-family: bobFont;
+          width: 15em;
+          height: 50px;
+		      border-width: 5px;
+          border-color: #ff3300;
+          border-radius:10px;	
+          cursor: pointer;
         }
 
         #responseField {
-          min-height: 70px;
-          margin-top: 15px;
+          min-height: 20em;
+          margin-top: 5em;
           background-color:#ff3300;
           border:solid;
           border:10px;
           border-radius:10px;
         }
 
-        #total_price {
+        #totalPrice {
           color: #ffcc66;
         }
 
     </style>
 
     <script>
+        // Submit on 'Enter'
+        let input = document.getElementById("userInput");
+
+        input.addEventListener("keypress", function(e){
+            if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("inputBtn").click();
+            }
+        }); 
+
         // Empty the input field on load/reload.
         $(document).ready(function() {
-            $("#user_input").val("");    
+            $("#userInput").val("");    
         });
 
               
@@ -142,8 +190,8 @@
         });
 
         	
-        $("#input_btn").click(function(){
-            userInput = $("#user_input").val();
+        $("#inputBtn").click(function(){
+            userInput = $("#userInput").val();
             $.ajax({
                 type: "POST",
                 url: "/prompt",
@@ -157,18 +205,18 @@
                     console.log(result[2]);
                     resultResponse = responseStr.slice(1,-1);
                  
-                    $("#response_text").text(resultResponse);                  
+                    $("#responseText").text(resultResponse);                  
 
                     percentegeStr = JSON.stringify(result[1]) + " %";
                     
                     resultPercentege = percentegeStr;
-                    $("#acc_text").text(resultPercentege);    
+                    $("#accText").text(resultPercentege);    
 
                     resultTotalPrice = JSON.stringify(result[2]);
 
                     // Precision
                     resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
-                    $("#total_price").text(resultTotalPrice + " $");
+                    $("#totalPrice").text(resultTotalPrice + " $");
           
                 }, 
                 error: function (error) {
