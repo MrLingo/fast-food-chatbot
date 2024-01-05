@@ -145,8 +145,8 @@
         $("#input_btn").click(function(){
             userInput = $("#user_input").val();
             $.ajax({
-                type: "GET",
-                url: "/data",
+                type: "POST",
+                url: "/prompt",
                 data: {
                 'user_input' : userInput
                 },

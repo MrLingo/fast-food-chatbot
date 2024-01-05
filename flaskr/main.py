@@ -1,7 +1,7 @@
 from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
-from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
+from knowledge_retreiver import domain_dict, general_dict, price_dict
 
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
@@ -19,8 +19,9 @@ product_memory = []
 
 main_page_info = ["Viki", "Viki's response accuracy: ", "Total price:"]
 
-def beautify_answer():
-    pass
+@app.route('/')
+def show_main_page():
+    return render_template('main.html', pages=main_page_info)
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -30,12 +31,7 @@ def add_record_to_payment_receipt(product_name, product_price):
    product_memory.append([date_time_str, product_name, product_price])
    print('updated memory:', product_memory)
 
-
-@app.route('/')
-def show_main_page():
-    return render_template('main.html', pages=main_page_info)
-
-@app.route('/receipt', methods=['POST'])
+@app.route('/generate_receipt')
 def generate_payment_receipt():
     DATA = [ 
         [ "Date" , "Product", "Price (USD)" ], 
@@ -46,7 +42,7 @@ def generate_payment_receipt():
         [ "Total", "", "17,998.00/-"],
     ] 
 
-    pdf = SimpleDocTemplate( "receipts/receipt.pdf" , pagesize = A4 ) 
+    pdf = SimpleDocTemplate( "receipt.pdf" , pagesize = A4 ) 
     
     # standard stylesheet defined within reportlab itself 
     styles = getSampleStyleSheet() 
@@ -76,7 +72,7 @@ def generate_payment_receipt():
     pdf.build([ title , table ]) 
     
 
-@app.route('/prompt', methods=['POST'])
+@app.route('/data')
 def process_order():
     global total_price
     user_input = request.args.get('user_input')

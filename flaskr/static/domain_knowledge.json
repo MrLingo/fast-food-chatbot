@@ -1,0 +1,41 @@
+{
+     "water" : "Dasani water ",
+     "one water" : "Dasani water ",
+     "would like one water please" : "Dasani water",
+    
+     "what products do you offer?" : "We offer pizzas, burgers, salads and cold drinks.",
+     "" : "Please provide a request!",
+     "what burgers do you offer?" : "We offer Big Mac, Quarter Pounder with Cheese, Cheeseburger and Hamburger",
+     "what salads do you offer?" : "Bacon Ranch Salad and Side Salad",
+     "what cold drinks do you offer?" : "We offer Coca-Cola, Sprite, Fanta Orange and DASANI Water",
+     "do you have any sausages avaliable?" : "We do have, ketchup, garlic sausage and mustard!",
+
+     "what pizzas do you offer?" : "We offer: Margherita Pizza, White Pizza, Caesar Salad Pizza, Waffled Margherita Pizza, Venetian Rolled Pizza, Pizza Pockets, Calzone Pizza, Griddled California pizzas, Bruschetta Pizzaiola, Breakfast Pizza, Gluten-Free Mushroom Pizza, Wingless Buffalo Chicken Pizza and Basic Pepperoni Pizza",
+
+     "pepperoni please" : "Pizza Pepperoni",
+     "margheritta please" : "Margherita",
+     "white pizza please" : "White Pizza",
+     "caesar salad pizza please" : "Caesar Salad Pizza",
+     "venetian rolled pizza please" : "Venetian Rolled Pizza",
+     "pizza pockets please" : "Pizza Pockets",
+     "calzone pizza please" : "Calzone Pizza",
+     "griddled california pizzas please" : "Griddled California Pizzas",
+     "bruscheta pizzaiola please" : "Bruscheta Pizzaiola",
+     "breakfast pizza please" : "Breakfast Pizza",
+     "gluten-free mushroom pizza please" : "Gluten-free Mushroom Pizza",
+     "wingless buffalo chicken pizza please" : "Wingless Buffalo Chicken Pizza",
+
+     "big mac please" : "Big Mac ",
+     "quarter pounder with cheese please" : "Quarter Pounder with Cheese",
+     "cheeseburger please" : "Cheeseburger",
+     "hamburger please" : "Hamburger",
+  
+     "bacon ranch salad please" : "Bacon Ranch salad",
+     "side salad please" : "Side Salad",
+
+     "coca-cola please" : "Coca-Cola ",
+     "sprite please" : "Sprite",
+     "fanta please" : "Fanta",
+     "orange please" : "Orange ",
+     "dasani water please" : "Dasani water"
+}
