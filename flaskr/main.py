@@ -72,6 +72,34 @@ def build_receipt_template():
     
     return title, style
 
+
+def calculate_total_price(final_answer):
+    global total_price
+
+    for product in price_dict:        
+        if product.lower() in final_answer.lower():
+            total_price += price_dict[product]
+            return price_dict[product]
+
+
+def do_levenstein(domain_dict, user_input):
+    temp_dict = {}
+    ''' Traversing data dict and filling a temporary one (answer : ratio). '''
+    for i in domain_dict:
+        ratio = similar(i, user_input.lower())
+        temp_dict[domain_dict[i]] = ratio
+
+    ''' Choosing the one with the best ratio from the generated one. '''
+    final_answer = max(temp_dict, key=temp_dict.get)
+    accuracy = temp_dict[final_answer]
+    
+    ''' Show accuracy in % '''
+    accuracy = round(accuracy, 1)
+    accuracy = accuracy * 100
+
+    return final_answer, accuracy
+
+
 # ============================== Routes =======================================
 
 
@@ -92,7 +120,7 @@ def generate_payment_receipt():
     
     title, style = build_receipt_template()
     
-    # creates a table object and passes the style to it 
+    # Creates a table object and passes the style to it 
     table = Table(receipt_data , style = style ) 
     pdf.build([title , table ])
 
@@ -111,6 +139,7 @@ def generate_payment_receipt():
 @app.route('/prompt', methods=['POST'])
 def process_order():
     global total_price
+    product_price = None
 
     try:
         data = request.form
@@ -119,44 +148,17 @@ def process_order():
     except Exception as e:
         print("Error handling POST request via /prompt endpoint", e)
 
-    temp_dict = {}
-
-    ''' Individual product price '''
-    product_price = None
-    
-
     ''' Merge knowledge '''
     domain_dict.update(general_dict)
 
-
-    ''' Traversing data dict and filling a temporary one ( answer:ratio ). '''
-    for i in domain_dict:
-        ratio = similar(i, user_input.lower())
-        temp_dict[domain_dict[i]] = ratio
-
-
-    ''' Choosing the one with the best ratio from the generated one. '''
-    final_answer = max(temp_dict, key=temp_dict.get)
-    accuracy = temp_dict[final_answer]
-    
-
-    ''' Calculating total price. '''
-    for product in price_dict:        
-        if product.lower() in final_answer.lower():
-            total_price += price_dict[product]
-            product_price = price_dict[product]
-            break
-
-
-    ''' Reformating the accuracy ( show in %) '''
-    accuracy = round(accuracy, 1)
-    accuracy = accuracy * 100
-    
+    final_answer, accuracy = do_levenstein(domain_dict, user_input)
+    product_price = calculate_total_price(final_answer)
+     
     ''' Beautify answer '''
     final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price]   
     
-    add_record_to_payment_receipt(final_answer.strip(), product_price)
+    add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)
          
     ''' Return Viki's response to the user '''
     return jsonify(response_list)
