@@ -188,8 +188,8 @@
                 type: "POST",
                 url: "/prompt",
                 data: {
-                'user_input' : userInput
-                },
+                    'user_input' : userInput
+                },                                
                 success: function(result){
                     responseStr = JSON.stringify(result[0]);
                     console.log(result[0]);
@@ -198,12 +198,9 @@
                     resultResponse = responseStr.slice(1,-1);
                  
                     $("#responseText").text(resultResponse);                  
-
-                    percentegeStr = JSON.stringify(result[1]) + " %";
-                    
-                    resultPercentege = percentegeStr;
+                    resultPercentege = JSON.stringify(result[1]) + " %";
+                  
                     $("#accText").text(resultPercentege);    
-
                     resultTotalPrice = JSON.stringify(result[2]);
 
                     // Precision
@@ -219,6 +216,7 @@
 
         // Generate receipt request
         $("#generateReceiptButton").click(function(){
+            console.log("Triggering receipt generation");
             userInput = $("#userInput").val();
             $.ajax({
                 type: "POST",

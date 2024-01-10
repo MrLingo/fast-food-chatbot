@@ -1,5 +1,4 @@
 .gitignore.txt
-.venv/
 
 *.pyc
 __pycache__/
@@ -14,3 +13,4 @@ dist/
 build/
 *.egg-info/
 *.pdf
+receipts

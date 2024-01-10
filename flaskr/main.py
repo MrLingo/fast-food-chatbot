@@ -1,7 +1,8 @@
 from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
-from knowledge_retreiver import domain_dict, general_dict, price_dict
+from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
+import hashlib
 
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
@@ -12,16 +13,15 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-total_price = 0
+total_price : float = 0
 
 # List of lists (rows that represent each bought/selected product)
-product_memory = []
+product_memory : list= [[ "Date" , "Product", "Price (USD)" ]]
+main_page_info : list = ["Viki", "Viki's response accuracy: ", "Total price:"]
+date_time_str : str = None
 
-main_page_info = ["Viki", "Viki's response accuracy: ", "Total price:"]
-
-@app.route('/')
-def show_main_page():
-    return render_template('main.html', pages=main_page_info)
+def beautify_answer():
+    pass
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -29,10 +29,18 @@ def similar(a, b):
 def add_record_to_payment_receipt(product_name, product_price):
    date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")   
    product_memory.append([date_time_str, product_name, product_price])
-   print('updated memory:', product_memory)
+   print('Updated memory:', product_memory)
 
-@app.route('/generate_receipt')
-def generate_payment_receipt():
+
+def build_receipt_template():
+    # standard stylesheet defined within reportlab itself 
+    styles = getSampleStyleSheet() 
+
+    title_style = styles[ "Heading1" ] 
+    
+    ''' 
+    Template reference
+
     DATA = [ 
         [ "Date" , "Product", "Price (USD)" ], 
         [ "16/11/2020", "", "10,999.00/-"], 
@@ -42,13 +50,8 @@ def generate_payment_receipt():
         [ "Total", "", "17,998.00/-"],
     ] 
 
-    pdf = SimpleDocTemplate( "receipt.pdf" , pagesize = A4 ) 
-    
-    # standard stylesheet defined within reportlab itself 
-    styles = getSampleStyleSheet() 
+    '''
 
-    title_style = styles[ "Heading1" ] 
-    
     # 0: left, 
     # 1: center, 
     # 2: right 
@@ -67,15 +70,55 @@ def generate_payment_receipt():
         ] 
     ) 
     
+    return title, style
+
+# ============================== Routes =======================================
+
+
+@app.route('/')
+def show_main_page():
+    return render_template('main.html', pages=main_page_info)
+
+@app.route('/receipt', methods=['POST'])
+def generate_payment_receipt():
+    # Build name, using hash + current datetime as an order identifier 
+    date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")
+    order_num_hash = str(hashlib.sha256(date_time_str.encode()).hexdigest()[:8]).upper()
+
+    receipt_data = product_memory
+    receipt_data.append([ "Total", "", str(total_price)])
+
+    pdf = SimpleDocTemplate( f"receipts/viki_receipt_order_{order_num_hash}_{date_time_str}.pdf" , pagesize = A4 ) 
+    
+    title, style = build_receipt_template()
+    
     # creates a table object and passes the style to it 
-    table = Table( DATA , style = style ) 
-    pdf.build([ title , table ]) 
+    table = Table(receipt_data , style = style ) 
+    pdf.build([title , table ])
+
+    # Validate receipt storage
+    receipt_list = []
+    print(receipt_data, len(receipt_data))
+
+    if len(receipt_data) > 1:
+        receipt_list.append("receipt.pdf generated")
+    else:
+        receipt_list.append("No data")
+
+    return jsonify(receipt_list)
     
 
-@app.route('/data')
+@app.route('/prompt', methods=['POST'])
 def process_order():
     global total_price
-    user_input = request.args.get('user_input')
+
+    try:
+        data = request.form
+        user_input = data.get('user_input')
+        print("Data received successfully", user_input)
+    except Exception as e:
+        print("Error handling POST request via /prompt endpoint", e)
+
     temp_dict = {}
 
     ''' Individual product price '''
@@ -100,7 +143,7 @@ def process_order():
     ''' Calculating total price. '''
     for product in price_dict:        
         if product.lower() in final_answer.lower():
-            total_price = total_price + price_dict[product]
+            total_price += price_dict[product]
             product_price = price_dict[product]
             break
 
@@ -113,8 +156,7 @@ def process_order():
     final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price]   
     
-    add_record_to_payment_receipt(final_answer, product_price)
-    #generate_payment_receipt()       
-
+    add_record_to_payment_receipt(final_answer.strip(), product_price)
+         
     ''' Return Viki's response to the user '''
     return jsonify(response_list)
