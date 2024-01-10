@@ -15,7 +15,7 @@ app = Flask(__name__)
 total_price = 0
 
 # List of lists (rows that represent each bought/selected product)
-product_memory = []
+product_memory = [[ "Date" , "Product", "Price (USD)" ]]
 
 main_page_info = ["Viki", "Viki's response accuracy: ", "Total price:"]
 
@@ -37,6 +37,7 @@ def show_main_page():
 
 @app.route('/receipt', methods=['POST'])
 def generate_payment_receipt():
+    '''
     DATA = [ 
         [ "Date" , "Product", "Price (USD)" ], 
         [ "16/11/2020", "", "10,999.00/-"], 
@@ -45,6 +46,8 @@ def generate_payment_receipt():
         [ "Discount", "", "-3,000.00/-"],
         [ "Total", "", "17,998.00/-"],
     ] 
+    '''
+    DATA = product_memory
 
     pdf = SimpleDocTemplate( "receipts/receipt.pdf" , pagesize = A4 ) 
     
@@ -118,7 +121,6 @@ def process_order():
     response_list = [final_answer, accuracy, total_price]   
     
     add_record_to_payment_receipt(final_answer, product_price)
-    #generate_payment_receipt()       
-
+         
     ''' Return Viki's response to the user '''
     return jsonify(response_list)

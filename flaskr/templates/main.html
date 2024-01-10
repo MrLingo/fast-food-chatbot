@@ -4,8 +4,7 @@
       <title>{{ pages[0] }}</title>
       <meta charset='windows-1251'>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-           ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <script src="https://code.responsivevoice.org/responsivevoice.js?key=YOUR_UNIQUE_KEY"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
       <section class="container">
@@ -21,7 +20,6 @@
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border:none;">
             <input type="text" name="userInput" id='userInput' autofocus><br><br>
-            <!-- <input type="submit" name="send_user_input" value="Talk to Viki" id="input_btn"/> -->
             <div style="border:solid;" id="inputBtn">Talk to Viki</div>
           </div>
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
@@ -182,14 +180,8 @@
         $(document).ready(function() {
             $("#userInput").val("");    
         });
-
-              
-        // Do not refresh the page on submiting.
-        $("#prospects_form").submit(function(e) {
-            e.preventDefault();         
-        });
-
-        	
+            
+        // Process order request
         $("#inputBtn").click(function(){
             userInput = $("#userInput").val();
             $.ajax({
@@ -218,6 +210,32 @@
                     resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
                     $("#totalPrice").text(resultTotalPrice + " $");
           
+                }, 
+                error: function (error) {
+                    $("p").text(error);
+                }   
+            });
+        });
+
+        // Generate receipt request
+        $("#generateReceiptButton").click(function(){
+            userInput = $("#userInput").val();
+            $.ajax({
+                type: "POST",
+                url: "/receipt",
+                data: {
+                'user_input' : ""
+                },
+                success: function(result){
+                    responseStr = JSON.stringify(result[0]);
+                    console.log(result[0]);
+                    console.log(result[1]);
+                    console.log(result[2]);
+                    resultResponse = responseStr.slice(1,-1);
+
+                    
+                 
+                    
                 }, 
                 error: function (error) {
                     $("p").text(error);
