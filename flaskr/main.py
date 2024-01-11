@@ -3,6 +3,8 @@ from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
 from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
 import hashlib
+from nltk import ngrams
+from openpyxl import load_workbook
 
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
@@ -19,12 +21,44 @@ total_price : float = 0
 product_memory : list= [[ "Date" , "Product", "Price (USD)" ]]
 main_page_info : list = ["Viki", "Viki's response accuracy: ", "Total price:"]
 date_time_str : str = None
+autocomplete_path : str = r'flaskr/static/autocomplete_memory.xlsx'
+
+
+def write_to_excel_autocomplete(prefix, suffix):
+    new_row_data = [prefix, suffix]
+    wb = load_workbook(autocomplete_path)
+
+    # Select first worksheet
+    ws = wb.worksheets[0]
+
+    ws.append(new_row_data)
+    wb.save(autocomplete_path)
+
+
+def store_input_for_autocomplete(user_input):
+    # If input long enough (at least three words) - build trigrams
+    words = user_input.split()
+    if len(words) >= 3:
+        trigrams = ngrams(words, 3)
+
+        for trigram in trigrams:
+            print('first part ', trigram[0])
+            print('second part ', trigram[1])
+            print('third part ', trigram[2])
+            print(' =================== ')
+
+        prefix = trigram[0] + " " + trigram[1]
+        suffix = trigram[2]
+        write_to_excel_autocomplete(prefix, suffix)
+
 
 def beautify_answer():
     pass
 
+
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
+
 
 def add_record_to_payment_receipt(product_name, product_price):
    date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")   
@@ -107,6 +141,7 @@ def do_levenstein(domain_dict, user_input):
 def show_main_page():
     return render_template('main.html', pages=main_page_info)
 
+
 @app.route('/receipt', methods=['GET'])
 def generate_payment_receipt():
     # Build name, using hash + current datetime as an order identifier 
@@ -152,6 +187,10 @@ def process_order():
 
     ''' Merge knowledge '''
     domain_dict.update(general_dict)
+
+
+    ''' Store for future autocompletion '''
+    store_input_for_autocomplete(user_input)
 
     final_answer, accuracy = do_levenstein(domain_dict, user_input)
     product_price = calculate_total_price(final_answer)
