@@ -5,6 +5,7 @@ from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
 import hashlib
 from nltk import ngrams
 from openpyxl import load_workbook
+import pandas as pd
 
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
@@ -24,7 +25,7 @@ date_time_str : str = None
 autocomplete_path : str = r'flaskr/static/autocomplete_memory.xlsx'
 
 
-def write_to_excel_autocomplete(prefix, suffix):
+def write_to_excel_autocomplete(prefix, suffix) -> None:
     new_row_data = [prefix, suffix]
     wb = load_workbook(autocomplete_path)
 
@@ -35,7 +36,7 @@ def write_to_excel_autocomplete(prefix, suffix):
     wb.save(autocomplete_path)
 
 
-def store_input_for_autocomplete(user_input):
+def store_input_for_autocomplete(user_input) -> None:
     # If input long enough (at least three words) - build trigrams
     words = user_input.split()
     if len(words) >= 3:
@@ -52,15 +53,17 @@ def store_input_for_autocomplete(user_input):
         write_to_excel_autocomplete(prefix, suffix)
 
 
+
+
 def beautify_answer():
     pass
 
 
-def similar(a, b):
+def similar(a, b) -> float:
     return SequenceMatcher(None, a, b).ratio()
 
 
-def add_record_to_payment_receipt(product_name, product_price):
+def add_record_to_payment_receipt(product_name, product_price) -> None:
    date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")   
    product_memory.append([date_time_str, product_name, product_price])
    print('Updated memory:', product_memory)
@@ -142,6 +145,30 @@ def show_main_page():
     return render_template('main.html', pages=main_page_info)
 
 
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    user_input = request.args.get('user_input')
+
+    words = user_input.split()
+    if len(words) >= 2:
+        bigrams = ngrams(words, 2)
+
+        for bigram in bigrams:
+            print('PREFIX INPUT: ', bigram[0])
+            print('SUFFIX INPUT: ', bigram[1])
+            print(' =================== ')
+         
+        autocomplete_data_df = pd.read_excel(autocomplete_path, sheet_name='main')
+
+        for prefix in autocomplete_data_df['Prefix']:
+            print('prefix ', prefix)
+            print('user input:', user_input)
+            if prefix.lower().strip() == user_input.lower().strip():
+                return jsonify([prefix])
+                    
+    return jsonify(["No suggestion found"])
+
+
 @app.route('/receipt', methods=['GET'])
 def generate_payment_receipt():
     # Build name, using hash + current datetime as an order identifier 
@@ -188,6 +215,7 @@ def process_order():
     ''' Merge knowledge '''
     domain_dict.update(general_dict)
 
+    autocomplete(user_input)
 
     ''' Store for future autocompletion '''
     store_input_for_autocomplete(user_input)

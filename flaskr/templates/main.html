@@ -181,6 +181,24 @@
             $("#userInput").val("");    
         });
             
+        // Search as you type - autocompletion
+        $('#userInput').keyup(function(e) {
+            console.log("Pressed key");
+
+            userInput = $("#userInput").val();
+            $.ajax({
+                type: "GET",
+                url: "/autocomplete",
+                data: {
+                    'user_input' : userInput
+                },                                
+                success: function(result){
+                    responseStr = JSON.stringify(result[0]);
+                    console.log(result[0]);
+                }
+            });
+        });
+
         // Process order request
         $("#inputBtn").click(function(){
             userInput = $("#userInput").val();
