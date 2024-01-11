@@ -18,8 +18,11 @@
        
         <div class="row text-center">
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border:none;">
-            <input type="text" name="userInput" id='userInput' autofocus><br><br>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border:none;">            
+            <input type="text" name="userInput" id='userInput' autofocus><br><br>   
+            <div id="suggestion" class=""><span id="suggestionSpan">Suggestion</span></div>         
+            <div>
+              
             <div style="border:solid;" id="inputBtn">Talk to Viki</div>
           </div>
           <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
@@ -78,6 +81,15 @@
        .container {
           margin-top: 200px;
        }
+
+        #suggestion{
+             border: 5px #ff3300;        
+             border-radius: 10px;
+             margin-top: -1em;
+             min-height: 5em;
+             background: white;
+             display: none;
+        }
 
         #copyrightText{
           margin-top: 9em;
@@ -195,9 +207,26 @@
                 success: function(result){
                     responseStr = JSON.stringify(result[0]);
                     console.log(result[0]);
+
+                    // Create suggestion drop down
+                    if(result[0] != "No suggestion found"){
+                      $('#suggestion').css({"display" : "block"});                      
+                      $('#suggestionSpan').text(result[0]);
+                      $('#suggestionSpan').css({"color" : "black", "cursor" : "pointer"});
+
+                    } else {
+                      $('#suggestion').css({"display" : "none"});
+                    }                    
                 }
             });
         });
+
+        $("#suggestionSpan").click(function(){
+            console.log("Using suggestion");
+            $("#userInput").val($("#userInput").val() + " " + $('#suggestionSpan').text());
+            console.log($("#userInput").val());
+        });
+
 
         // Process order request
         $("#inputBtn").click(function(){

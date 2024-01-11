@@ -53,8 +53,6 @@ def store_input_for_autocomplete(user_input) -> None:
         write_to_excel_autocomplete(prefix, suffix)
 
 
-
-
 def beautify_answer():
     pass
 
@@ -158,14 +156,12 @@ def autocomplete():
             print('SUFFIX INPUT: ', bigram[1])
             print(' =================== ')
          
-        autocomplete_data_df = pd.read_excel(autocomplete_path, sheet_name='main')
+        autocmpl_df = pd.read_excel(autocomplete_path, sheet_name='main')
+        row = autocmpl_df[autocmpl_df["Prefix"] == user_input]
 
-        for prefix in autocomplete_data_df['Prefix']:
-            print('prefix ', prefix)
-            print('user input:', user_input)
-            if prefix.lower().strip() == user_input.lower().strip():
-                return jsonify([prefix])
-                    
+        if not row.empty:
+            return jsonify([row['Suffix'].values[0]])
+
     return jsonify(["No suggestion found"])
 
 
@@ -214,8 +210,6 @@ def process_order():
 
     ''' Merge knowledge '''
     domain_dict.update(general_dict)
-
-    autocomplete(user_input)
 
     ''' Store for future autocompletion '''
     store_input_for_autocomplete(user_input)
