@@ -3,8 +3,8 @@
     <head>
       <title>{{ pages[0] }}</title>
       <meta charset='windows-1251'>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
       <section class="container">
@@ -219,21 +219,15 @@
             console.log("Triggering receipt generation");
             userInput = $("#userInput").val();
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/receipt",
                 data: {
                 'user_input' : ""
                 },
                 success: function(result){
                     responseStr = JSON.stringify(result[0]);
-                    console.log(result[0]);
-                    console.log(result[1]);
-                    console.log(result[2]);
-                    resultResponse = responseStr.slice(1,-1);
-
-                    
-                 
-                    
+                    receiptName = result[0];
+                    console.log(receiptName);                                                         
                 }, 
                 error: function (error) {
                     $("p").text(error);

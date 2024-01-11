@@ -107,7 +107,7 @@ def do_levenstein(domain_dict, user_input):
 def show_main_page():
     return render_template('main.html', pages=main_page_info)
 
-@app.route('/receipt', methods=['POST'])
+@app.route('/receipt', methods=['GET'])
 def generate_payment_receipt():
     # Build name, using hash + current datetime as an order identifier 
     date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")
@@ -115,17 +115,19 @@ def generate_payment_receipt():
 
     receipt_data = product_memory
     receipt_data.append([ "Total", "", str(total_price)])
+    
+    receipt_name = f"viki_receipt_order_{order_num_hash}_{date_time_str}.pdf"
 
-    pdf = SimpleDocTemplate( f"receipts/viki_receipt_order_{order_num_hash}_{date_time_str}.pdf" , pagesize = A4 ) 
+    pdf = SimpleDocTemplate(f"receipts/{receipt_name}" , pagesize = A4 ) 
     
     title, style = build_receipt_template()
     
     # Creates a table object and passes the style to it 
-    table = Table(receipt_data , style = style ) 
+    table = Table(receipt_data , style = style )
     pdf.build([title , table ])
 
     # Validate receipt storage
-    receipt_list = []
+    receipt_list = [receipt_name]
     print(receipt_data, len(receipt_data))
 
     if len(receipt_data) > 1:
@@ -162,3 +164,7 @@ def process_order():
          
     ''' Return Viki's response to the user '''
     return jsonify(response_list)
+
+
+if __name__ == "__main__":
+    app.run(port="5000")
