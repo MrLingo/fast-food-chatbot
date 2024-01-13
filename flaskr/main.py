@@ -50,6 +50,7 @@ def store_input_for_autocomplete(user_input) -> None:
 
         prefix = trigram[0] + " " + trigram[1]
         suffix = trigram[2]
+                
         write_to_excel_autocomplete(prefix, suffix)
 
 

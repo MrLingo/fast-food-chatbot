@@ -1,0 +1,117 @@
+@font-face {
+    font-family: "mainFont";
+    src: url("../static/afterclap.otf"); 
+  }
+
+  @font-face {
+    font-family: "bobFont";
+    src: url("../static/nineteeth.otf"); 
+  }
+
+
+  body {
+    background-color:#ffcc66;
+  }
+
+  p, span {
+    font-family: ariel;
+    font-size: 20px;
+    color: #ffcc66;
+  }
+
+ .container {
+    margin-top: 200px;
+ }
+
+  #suggestion{
+       border: 5px #ff3300;        
+       border-radius: 10px;
+       margin-top: -1em;
+       min-height: 5em;
+       background: white;
+       display: none;
+  }
+
+  #copyrightText{
+    margin-top: 9em;
+    font-size: 25px;
+    font-weight: bold;
+    color:#ff3300;
+  }
+
+  h1 {
+    font-family: bobFont;
+    color: #ff3300;
+    margin-top: 10px;
+  }
+  
+  img {
+    margin-top: -5em;
+  }
+
+  #userInput {
+    padding-left: 1em;
+    margin-top: 1em;
+    font-family: ariel;
+    color: black;
+    width: 100%;
+    height: 40px;
+    border: solid;
+    border: 20px;
+    box-shadow: 5px 5px 8px #666;
+    border-radius: 10px;
+  }
+
+  #userInput:focus{
+    outline: none;
+    border: 2px solid #ff3300;
+  }
+
+  #responseText {
+    font-size:20px;
+    color:#ffcc66;
+    word-wrap: break-word;
+    margin-top: 35px;
+  }
+
+  #inputBtn {
+    background: #ff3300;
+    display: inline-block;
+    padding-top: 0.6em;
+    color: #ffcc66;
+    font-family: bobFont;
+    width: 15em;
+    height: 50px;
+        border-width: 5px;
+    border-color: #ff3300;
+    border-radius:10px;	
+    cursor: pointer;
+  }
+
+  #generateReceiptButton {
+    margin-top: 3em;
+    background: #ff3300;
+    display: inline-block;
+    padding-top: 0.8em;
+    color: #ffcc66;
+    font-family: bobFont;
+    width: 15em;
+    height: 50px;
+        border-width: 5px;
+    border-color: #ff3300;
+    border-radius:10px;	
+    cursor: pointer;
+  }
+
+  #responseField {
+    min-height: 20em;
+    margin-top: 5em;
+    background-color:#ff3300;
+    border:solid;
+    border:10px;
+    border-radius:10px;
+  }
+
+  #totalPrice {
+    color: #ffcc66;
+  }

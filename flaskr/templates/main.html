@@ -5,6 +5,7 @@
       <meta charset='windows-1251'>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     </head>
     <body>
       <section class="container">
@@ -55,128 +56,9 @@
       </div>
       
       </section>
-    </body>
-    <style>
-        @font-face {
-          font-family: "mainFont";
-          src: url("../static/afterclap.otf"); 
-        }
+    </body>    
 
-        @font-face {
-          font-family: "bobFont";
-          src: url("../static/nineteeth.otf"); 
-        }
-
-
-        body {
-          background-color:#ffcc66;
-        }
-
-        p, span {
-          font-family: ariel;
-          font-size: 20px;
-          color: #ffcc66;
-        }
-
-       .container {
-          margin-top: 200px;
-       }
-
-        #suggestion{
-             border: 5px #ff3300;        
-             border-radius: 10px;
-             margin-top: -1em;
-             min-height: 5em;
-             background: white;
-             display: none;
-        }
-
-        #copyrightText{
-          margin-top: 9em;
-          font-size: 25px;
-          font-weight: bold;
-          color:#ff3300;
-        }
-
-        h1 {
-          font-family: bobFont;
-          color: #ff3300;
-          margin-top: 10px;
-        }
-        
-        img {
-          margin-top: -5em;
-        }
-
-        #userInput {
-          padding-left: 1em;
-          margin-top: 1em;
-          font-family: ariel;
-          color: black;
-          width: 100%;
-          height: 40px;
-          border: solid;
-          border: 20px;
-          box-shadow: 5px 5px 8px #666;
-          border-radius: 10px;
-        }
-
-        #userInput:focus{
-          outline: none;
-          border: 2px solid #ff3300;
-        }
-
-        #responseText {
-          font-size:20px;
-          color:#ffcc66;
-          word-wrap: break-word;
-          margin-top: 35px;
-        }
-
-        #inputBtn {
-          background: #ff3300;
-          display: inline-block;
-          padding-top: 0.6em;
-          color: #ffcc66;
-          font-family: bobFont;
-          width: 15em;
-          height: 50px;
-		      border-width: 5px;
-          border-color: #ff3300;
-          border-radius:10px;	
-          cursor: pointer;
-        }
-
-        #generateReceiptButton {
-          margin-top: 3em;
-          background: #ff3300;
-          display: inline-block;
-          padding-top: 0.8em;
-          color: #ffcc66;
-          font-family: bobFont;
-          width: 15em;
-          height: 50px;
-		      border-width: 5px;
-          border-color: #ff3300;
-          border-radius:10px;	
-          cursor: pointer;
-        }
-
-        #responseField {
-          min-height: 20em;
-          margin-top: 5em;
-          background-color:#ff3300;
-          border:solid;
-          border:10px;
-          border-radius:10px;
-        }
-
-        #totalPrice {
-          color: #ffcc66;
-        }
-
-    </style>
-
+    <script tyle="text/javascript" src="{{url_for('static', filename='requests_logic.js')}}"></script>
     <script>
         // Submit on 'Enter'
         let input = document.getElementById("userInput");
@@ -191,95 +73,6 @@
         // Empty the input field on load/reload.
         $(document).ready(function() {
             $("#userInput").val("");    
-        });
-            
-        // Search as you type - autocompletion
-        $('#userInput').keyup(function(e) {
-            console.log("Pressed key");
-
-            userInput = $("#userInput").val();
-            $.ajax({
-                type: "GET",
-                url: "/autocomplete",
-                data: {
-                    'user_input' : userInput
-                },                                
-                success: function(result){
-                    responseStr = JSON.stringify(result[0]);
-                    console.log(result[0]);
-
-                    // Create suggestion drop down
-                    if(result[0] != "No suggestion found"){
-                      $('#suggestion').css({"display" : "block"});                      
-                      $('#suggestionSpan').text(result[0]);
-                      $('#suggestionSpan').css({"color" : "black", "cursor" : "pointer"});
-
-                    } else {
-                      $('#suggestion').css({"display" : "none"});
-                    }                    
-                }
-            });
-        });
-
-        $("#suggestionSpan").click(function(){
-            console.log("Using suggestion");
-            $("#userInput").val($("#userInput").val() + " " + $('#suggestionSpan').text());
-            console.log($("#userInput").val());
-        });
-
-
-        // Process order request
-        $("#inputBtn").click(function(){
-            userInput = $("#userInput").val();
-            $.ajax({
-                type: "POST",
-                url: "/prompt",
-                data: {
-                    'user_input' : userInput
-                },                                
-                success: function(result){
-                    responseStr = JSON.stringify(result[0]);
-                    console.log(result[0]);
-                    console.log(result[1]);
-                    console.log(result[2]);
-                    resultResponse = responseStr.slice(1,-1);
-                 
-                    $("#responseText").text(resultResponse);                  
-                    resultPercentege = JSON.stringify(result[1]) + " %";
-                  
-                    $("#accText").text(resultPercentege);    
-                    resultTotalPrice = JSON.stringify(result[2]);
-
-                    // Precision
-                    resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
-                    $("#totalPrice").text(resultTotalPrice + " $");
-          
-                }, 
-                error: function (error) {
-                    $("p").text(error);
-                }   
-            });
-        });
-
-        // Generate receipt request
-        $("#generateReceiptButton").click(function(){
-            console.log("Triggering receipt generation");
-            userInput = $("#userInput").val();
-            $.ajax({
-                type: "GET",
-                url: "/receipt",
-                data: {
-                'user_input' : ""
-                },
-                success: function(result){
-                    responseStr = JSON.stringify(result[0]);
-                    receiptName = result[0];
-                    console.log(receiptName);                                                         
-                }, 
-                error: function (error) {
-                    $("p").text(error);
-                }   
-            });
-        });
+        });                    
     </script>
 </html>
