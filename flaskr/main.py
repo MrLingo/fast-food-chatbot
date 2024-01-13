@@ -1,7 +1,7 @@
 from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
-from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
+from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict
 import hashlib
 from nltk import ngrams
 from openpyxl import load_workbook
@@ -22,7 +22,7 @@ total_price : float = 0
 product_memory : list= [[ "Date" , "Product", "Price (USD)" ]]
 main_page_info : list = ["Viki", "Viki's response accuracy: ", "Total price:"]
 date_time_str : str = None
-autocomplete_path : str = r'flaskr/static/autocomplete_memory.xlsx'
+autocomplete_path : str = config_dict['autocomplete_memory_path']
 
 
 def write_to_excel_autocomplete(prefix, suffix) -> None:

@@ -1,6 +1,10 @@
 
 import json
 
+''' Read config '''
+with open("flaskr/static/config.json") as file:
+    config_dict = json.load(file)
+
 ''' Import domain knowledge '''
 with open("flaskr/static/domain_knowledge.json") as file:
     domain_dict = json.load(file)

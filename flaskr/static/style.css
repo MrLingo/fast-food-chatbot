@@ -1,4 +1,4 @@
-@font-face {
+  @font-face {
     font-family: "mainFont";
     src: url("../static/afterclap.otf"); 
   }
@@ -7,7 +7,6 @@
     font-family: "bobFont";
     src: url("../static/nineteeth.otf"); 
   }
-
 
   body {
     background-color:#ffcc66;
@@ -19,9 +18,9 @@
     color: #ffcc66;
   }
 
- .container {
+  .container {
     margin-top: 200px;
- }
+  }
 
   #suggestion{
        border: 5px #ff3300;        
@@ -82,7 +81,7 @@
     font-family: bobFont;
     width: 15em;
     height: 50px;
-        border-width: 5px;
+    border-width: 5px;
     border-color: #ff3300;
     border-radius:10px;	
     cursor: pointer;

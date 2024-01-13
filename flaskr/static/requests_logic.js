@@ -75,7 +75,7 @@ $("#generateReceiptButton").click(function(){
         type: "GET",
         url: "/receipt",
         data: {
-        'user_input' : ""
+            'user_input' : ""
         },
         success: function(result){
             responseStr = JSON.stringify(result[0]);
