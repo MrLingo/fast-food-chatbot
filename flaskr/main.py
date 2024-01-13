@@ -2,6 +2,7 @@ from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
 from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict
+from flaskr.topic_extractor import extract_topic
 import hashlib
 from nltk import ngrams
 from openpyxl import load_workbook
@@ -10,7 +11,7 @@ import pandas as pd
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
 from reportlab.lib.pagesizes import A4 
-from reportlab.lib.styles import getSampleStyleSheet 
+from reportlab.lib.styles import getSampleStyleSheet
 
 from datetime import datetime
 
@@ -69,7 +70,7 @@ def add_record_to_payment_receipt(product_name, product_price) -> None:
 
 
 def build_receipt_template():
-    # standard stylesheet defined within reportlab itself 
+    # Standard stylesheet defined within reportlab itself 
     styles = getSampleStyleSheet() 
 
     title_style = styles[ "Heading1" ] 
@@ -218,9 +219,12 @@ def process_order():
     final_answer, accuracy = do_levenstein(domain_dict, user_input)
     product_price = calculate_total_price(final_answer)
      
+    ''' Extract topic words'''
+    topic_words, topic_extraction_type = extract_topic(user_input)
+ 
     ''' Beautify answer '''
     final_answer += ' coming right away'
-    response_list = [final_answer, accuracy, total_price]   
+    response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type]   
     
     add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)
          

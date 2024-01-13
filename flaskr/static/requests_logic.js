@@ -11,14 +11,13 @@ $('#userInput').keyup(function(e) {
         },                                
         success: function(result){
             responseStr = JSON.stringify(result[0]);
-            console.log(result[0]);
+            //console.log(result[0]);
 
             // Create suggestion drop down
             if(result[0] != "No suggestion found"){
               $('#suggestion').css({"display" : "block"});                      
               $('#suggestionSpan').text(result[0]);
               $('#suggestionSpan').css({"color" : "black", "cursor" : "pointer"});
-
             } else {
               $('#suggestion').css({"display" : "none"});
             }                    
@@ -30,7 +29,6 @@ $('#userInput').keyup(function(e) {
 $("#suggestionSpan").click(function(){
     console.log("Using suggestion");
     $("#userInput").val($("#userInput").val() + " " + $('#suggestionSpan').text());
-    console.log($("#userInput").val());
 });
 
 
@@ -44,10 +42,27 @@ $("#inputBtn").click(function(){
             'user_input' : userInput
         },                                
         success: function(result){
-            responseStr = JSON.stringify(result[0]);
-            console.log(result[0]);
-            console.log(result[1]);
-            console.log(result[2]);
+            responseStr = JSON.stringify(result[0]);            
+            topics = result[3];
+            topicExtractionType = result[4];
+
+            topicArr = [];            
+            console.log(topics);
+
+            if(topicExtractionType == "NN"){
+                topics.forEach(element =>{
+                    console.log("NN topic word: ", element[0])
+                    topicArr.push(element[0]);
+                });
+            } else {
+                topics.forEach(element => {
+                    console.log("LDA topic word", element)
+                    topicArr.push(element);
+                });
+            }
+
+            console.log('Extracted topic words: ', topicArr);
+
             resultResponse = responseStr.slice(1,-1);
          
             $("#responseText").text(resultResponse);                  
@@ -59,7 +74,6 @@ $("#inputBtn").click(function(){
             // Precision
             resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
             $("#totalPrice").text(resultTotalPrice + " $");
-  
         }, 
         error: function (error) {
             $("p").text(error);
