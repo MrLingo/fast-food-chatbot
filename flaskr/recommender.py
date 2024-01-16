@@ -1,9 +1,11 @@
-def recommend(topic_words : list, products : dict) -> list:
+def recommend(topic_words : list, products_dict : dict, topic_type : str) -> list:
     recommended_topics_list = []
 
-    for topic_word in topic_words:
-        if topic_word in products:
-            recommended_topics_list.append(topic_word)
+    for topic_word in topic_words:    
+        for key in products_dict:
+            if topic_type == "NN" and topic_word[0] in key:
+                recommended_topics_list.append(topic_word[0])
+            elif topic_type == "LDA" and topic_word in key:
+                recommended_topics_list.append(topic_word)
 
-    #print('recommended list:', recommended_topics_list)
     return recommended_topics_list

@@ -216,12 +216,12 @@ def process_order():
     product_price = calculate_total_price(final_answer)
      
     topic_words, topic_extraction_type = extract_topic(user_input)
-    recommended_topics = recommend(topic_words=topic_words, products=price_dict)
-    print(recommended_topics)
+    recommended_topics = recommend(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)
+    print("recommended topics", recommended_topics)
 
     ''' Beautify answer '''
     final_answer += ' coming right away'
-    response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type]   
+    response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, recommended_topics]   
     
     add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)         
     return jsonify(response_list)

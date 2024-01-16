@@ -45,7 +45,8 @@ $("#inputBtn").click(function(){
             responseStr = JSON.stringify(result[0]);            
             topics = result[3];
             topicExtractionType = result[4];
-            topicArr = [];            
+            topicArr = []; 
+            recommendedTopics = result[5];           
 
             if(topicExtractionType == "NN"){
                 topics.forEach(element =>{
@@ -72,6 +73,25 @@ $("#inputBtn").click(function(){
             // Precision
             resultTotalPrice = (Number(resultTotalPrice).toFixed(2)).toString();                                     
             $("#totalPrice").text(resultTotalPrice + " $");
+
+            function displayRecommendedTopics(recommendedTopics){
+                // Reset
+                $("#recommendedTopics").innerText = "";
+
+                for(let i = 0; i < recommendedTopics.length; i++){
+                  const topic = document.createElement("div");
+                  topic.setAttribute("class", "recommendedTopic");
+
+                  console.log("recommended topic  ", recommendedTopics[i]);
+
+                  topic.innerText = recommendedTopics[i];
+                  $("#recommendedTopics").append(topic);     
+                }                  
+              }
+
+            console.log("Recommended topics: ", recommendedTopics);
+            displayRecommendedTopics(recommendedTopics);
+
         }, 
         error: function (error) {
             $("p").text(error);
