@@ -96,10 +96,55 @@
     font-family: bobFont;
     width: 15em;
     height: 50px;
-        border-width: 5px;
+    border-width: 5px;
     border-color: #ff3300;
     border-radius:10px;	
     cursor: pointer;
+  }
+
+  #productsList {
+    min-width: 20em;
+    max-width: 120em;
+    min-height: 20em;
+    height: 25em;
+    margin-top: 5em;
+    border: 5px solid #ff3300;
+    border-radius: 12px;
+    overflow: scroll;
+  }
+
+  .product {
+    float:left;
+  }
+
+  .productDescription{
+    display:none;
+    background : #ff3300;
+    word-wrap: break-word;
+    margin-left : 1em;
+    color: #ffcc66;
+    font-weight: bold;
+    border-radius: 12px;
+  }
+
+  .productImage:hover + .productDescription {
+    display: block;
+    margin-top: 1em;
+  }
+
+  .productImage{    
+    transition: transform .2s;
+    cursor: pointer;
+    width: 15em;
+    height: 15em;
+    margin-top: 1em;
+    margin-left: 1em;
+    border: solid #ff3300;
+    border-radius: 12px;
+  }
+
+  .productImage:hover{
+    transform: scale(1.1);
   }
 
   #responseField {

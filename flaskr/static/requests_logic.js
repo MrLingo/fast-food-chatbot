@@ -45,9 +45,7 @@ $("#inputBtn").click(function(){
             responseStr = JSON.stringify(result[0]);            
             topics = result[3];
             topicExtractionType = result[4];
-
             topicArr = [];            
-            console.log(topics);
 
             if(topicExtractionType == "NN"){
                 topics.forEach(element =>{

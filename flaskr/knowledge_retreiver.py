@@ -1,5 +1,6 @@
 import json
 
+
 ''' Read config '''
 with open("flaskr/static/config.json") as file:
     config_dict = json.load(file)

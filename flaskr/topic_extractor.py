@@ -3,7 +3,8 @@ from sklearn.decomposition import LatentDirichletAllocation
 from nltk import word_tokenize, pos_tag
 from nltk.corpus import stopwords
 
-def lda_extraction(sentence, num_topics=1):  # Returns ['', '']
+
+def lda_extraction(sentence, num_topics=1): 
     # Create a document-term matrix
     vectorizer = CountVectorizer(stop_words='english')
     dtm = vectorizer.fit_transform([sentence])
@@ -17,7 +18,8 @@ def lda_extraction(sentence, num_topics=1):  # Returns ['', '']
     print('LDA Topics: ', topic_words)
     return topic_words, 'LDA'
 
-def nouns_extraction(text):                      # Returns [('fdfd', NN), ('fdf', NN)]
+
+def nouns_extraction(text):
     tokens = word_tokenize(text)
     stopwords_removed = stopwords.words("english")
     no_stopwords_text = [t for t in tokens if t not in stopwords_removed]
@@ -30,7 +32,7 @@ def nouns_extraction(text):                      # Returns [('fdfd', NN), ('fdf'
 
 # Extract topic with different methods, depending on how long the input is.
 # The longer the input the more relevant LDA becomes.
-def extract_topic(user_input, num_topics=1):
+def extract_topic(user_input):
     if len(user_input) <= 100:
         return nouns_extraction(user_input)
     return lda_extraction(user_input)

@@ -3,23 +3,21 @@ from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
 from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict
 from flaskr.topic_extractor import extract_topic
+from flaskr.recommender import recommend
 import hashlib
 from nltk import ngrams
 from openpyxl import load_workbook
 import pandas as pd
-
 from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle 
 from reportlab.lib import colors 
 from reportlab.lib.pagesizes import A4 
 from reportlab.lib.styles import getSampleStyleSheet
-
 from datetime import datetime
+
 
 app = Flask(__name__)
 
 total_price : float = 0
-
-# List of lists (rows that represent each bought/selected product)
 product_memory : list= [[ "Date" , "Product", "Price (USD)" ]]
 main_page_info : list = ["Viki", "Viki's response accuracy: ", "Total price:"]
 date_time_str : str = None
@@ -137,7 +135,7 @@ def do_levenstein(domain_dict, user_input):
     return final_answer, accuracy
 
 
-# ============================== Routes =======================================
+# ======================================== Routes ========================================
 
 
 @app.route('/')
@@ -210,25 +208,22 @@ def process_order():
     except Exception as e:
         print("Error handling POST request via /prompt endpoint", e)
 
-    ''' Merge knowledge '''
+    # Merge knowledge
     domain_dict.update(general_dict)
-
-    ''' Store for future autocompletion '''
     store_input_for_autocomplete(user_input)
 
     final_answer, accuracy = do_levenstein(domain_dict, user_input)
     product_price = calculate_total_price(final_answer)
      
-    ''' Extract topic words'''
     topic_words, topic_extraction_type = extract_topic(user_input)
- 
+    recommended_topics = recommend(topic_words=topic_words, products=price_dict)
+    print(recommended_topics)
+
     ''' Beautify answer '''
     final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type]   
     
-    add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)
-         
-    ''' Return Viki's response to the user '''
+    add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)         
     return jsonify(response_list)
 
 
