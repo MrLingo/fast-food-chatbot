@@ -32,6 +32,29 @@ $("#suggestionSpan").click(function(){
 });
 
 
+function displayProducts(productsOBJ){                  
+    for(let i = 0; i < productsOBJ.length; i++){
+        // Outer wrapper
+        const productElement = document.createElement('div');
+        productElement.setAttribute("class", "product");
+        $("#productsList").append(productElement);
+        
+        // Add product image
+        const productElementInner = document.createElement('img');
+        productElementInner.setAttribute("class", "productImage");
+        productElementInner.setAttribute("src", productsOBJ[i].src_name);
+        productElement.appendChild(productElementInner)
+       
+        // Add product description and price
+        const productDescription = document.createElement('div');
+        productDescription.setAttribute("class", "productDescription");
+        productDescription.innerText = productsOBJ[i].name + "\n" +  
+                                       "Price: " + productsOBJ[i].price + "\n" +  
+                                       "Ingredients:\n" + productsOBJ[i].ingredients;
+        productElement.appendChild(productDescription);
+    }                         
+}
+
 // Process order request
 $("#inputBtn").click(function(){
     userInput = $("#userInput").val();
@@ -46,7 +69,8 @@ $("#inputBtn").click(function(){
             topics = result[3];
             topicExtractionType = result[4];
             topicArr = []; 
-            recommendedTopics = result[5];           
+            //recommendedTopics = result[5];        
+            productsArr = result[5];   
 
             if(topicExtractionType == "NN"){
                 topics.forEach(element =>{
@@ -89,9 +113,8 @@ $("#inputBtn").click(function(){
                 }                  
               }
 
-            console.log("Recommended topics: ", recommendedTopics);
-            displayRecommendedTopics(recommendedTopics);
-
+            console.log(productsArr);
+            displayProducts(productsArr);
         }, 
         error: function (error) {
             $("p").text(error);

@@ -1,9 +1,9 @@
 from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
-from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict
+from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict, products_objs_list
 from flaskr.topic_extractor import extract_topic
-from flaskr.recommender import recommend
+from flaskr.product_extractor import extract_products, store_extracted_products
 import hashlib
 from nltk import ngrams
 from openpyxl import load_workbook
@@ -108,7 +108,7 @@ def build_receipt_template():
     return title, style
 
 
-def calculate_total_price(final_answer):
+def calculate_total_price(final_answer : str):
     global total_price
 
     for product in price_dict:        
@@ -117,7 +117,7 @@ def calculate_total_price(final_answer):
             return price_dict[product]
 
 
-def do_levenstein(domain_dict, user_input):
+def do_levenstein(domain_dict : dict, user_input : str):
     temp_dict = {}
     ''' Traversing data dict and filling a temporary one (answer : ratio). '''
     for i in domain_dict:
@@ -133,6 +133,18 @@ def do_levenstein(domain_dict, user_input):
     accuracy = accuracy * 100
 
     return final_answer, accuracy
+
+
+def collect_products(product_type : str) -> list:
+    images_path = "static/database/" + product_type + "/"
+    products_to_return_list = []
+
+    for product in products_objs_list:
+        if product["type"] == product_type:        
+            product["src_name"] = images_path + product["src_name"]
+            products_to_return_list.append(product)
+
+    return products_to_return_list
 
 
 # ======================================== Routes ========================================
@@ -151,10 +163,12 @@ def autocomplete():
     if len(words) >= 2:
         bigrams = ngrams(words, 2)
 
+        ''' Uncomment for debugging 
         for bigram in bigrams:
             print('PREFIX INPUT: ', bigram[0])
             print('SUFFIX INPUT: ', bigram[1])
             print(' =================== ')
+        '''
          
         autocmpl_df = pd.read_excel(autocomplete_path, sheet_name='main')
         row = autocmpl_df[autocmpl_df["Prefix"] == user_input]
@@ -215,13 +229,21 @@ def process_order():
     final_answer, accuracy = do_levenstein(domain_dict, user_input)
     product_price = calculate_total_price(final_answer)
      
-    topic_words, topic_extraction_type = extract_topic(user_input)
-    recommended_topics = recommend(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)
-    print("recommended topics", recommended_topics)
 
+    topic_words, topic_extraction_type = extract_topic(user_input)
+    extracted_products = extract_products(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)    
+    store_extracted_products(extracted_products)
+
+    # Capture product type, based on what the user wants to see.
+    # E.g. "Show me all your drinks"
+    product_type = "drink"
+
+    products_to_return = collect_products(product_type=product_type)
+    print("PRODUCTS TO RETURN: ", products_to_return) 
+            
     ''' Beautify answer '''
     final_answer += ' coming right away'
-    response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, recommended_topics]   
+    response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, products_to_return]   
     
     add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)         
     return jsonify(response_list)

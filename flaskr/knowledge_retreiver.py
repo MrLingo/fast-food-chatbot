@@ -16,3 +16,7 @@ with open("flaskr/static/general_knowledge.json") as file:
 ''' Associate each product with it's price (USD) '''
 with open("flaskr/static/price_mapping.json") as file:
     price_dict = json.load(file)
+
+''' Extract products '''
+with open("flaskr/static/products.json") as file:
+    products_objs_list = json.load(file)

@@ -1,0 +1,30 @@
+[
+  { 
+    "src_name" : "calzone.jpg",
+    "name": "Calzone",
+    "type" : "pizza",
+    "price" : 50,
+    "ingredients:" : "cheese, ham etc. etc."
+  }, 
+  {
+    "src_name": "pepperoni.jpg",
+    "type" : "pizza",
+    "name" : "Pepperoni",
+    "price" : 20,
+    "ingredients" : "cheese, lots of tomato, garlic etc."
+  },
+  {
+    "src_name": "coca-cola.jpg",
+    "type" : "drink",
+    "name" : "Coca-cola",
+    "price" : 8,
+    "ingredients" : "sugar"
+  },
+  {
+    "src_name": "dasani_water.jpg",
+    "type" : "drink",
+    "name" : "dasani water",
+    "price" : 5,
+    "ingredients" : "water"
+  }
+]

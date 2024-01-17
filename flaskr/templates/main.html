@@ -105,48 +105,6 @@
         // Empty the input field on load/reload.
         $(document).ready(function() {
             $("#userInput").val("");    
-        });
-        
-        function displayProducts(productsOBJ){                  
-            for(let i = 0; i < productsOBJ.length; i++){
-                // Outer wrapper
-                const productElement = document.createElement('div');
-                productElement.setAttribute("class", "product");
-                $("#productsList").append(productElement);
-                
-                // Add product image
-                const productElementInner = document.createElement('img');
-                productElementInner.setAttribute("class", "productImage");
-                productElementInner.setAttribute("src", productsOBJ[i].src);
-                productElement.appendChild(productElementInner)
-               
-                // Add product description and price
-                const productDescription = document.createElement('div');
-                productDescription.setAttribute("class", "productDescription");
-                productDescription.innerText = productsOBJ[i].name + "\n" +  
-                                               "Price: " + productsOBJ[i].price + "\n" +  
-                                               "Ingredients:\n" + productsOBJ[i].ingredients;
-                productElement.appendChild(productDescription);
-            }                         
-        }
-
-        let productType = "pizzas/";
-        let imagesPath = "static/database/" + productType;
-        
-        productsOBJ = [
-                      { src : imagesPath + "calzone.jpg",
-                        name: "Calzone",
-                        price : 50,
-                        ingredients: "cheese, ham etc. etc."
-                      }, 
-                      {
-                        src: imagesPath + "pepperoni.jpg",
-                        name : "Pepperoni",
-                        price : 20,
-                        ingredients : "cheese, lots of tomato, garlic etc."
-                      }
-                    ];
-
-        displayProducts(productsOBJ);      
+        });             
     </script>
 </html>

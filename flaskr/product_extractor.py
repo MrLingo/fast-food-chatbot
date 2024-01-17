@@ -1,4 +1,4 @@
-def recommend(topic_words : list, products_dict : dict, topic_type : str) -> list:
+def extract_products(topic_words : list, products_dict : dict, topic_type : str) -> list:
     recommended_topics_list = []
 
     for topic_word in topic_words:    
@@ -9,3 +9,7 @@ def recommend(topic_words : list, products_dict : dict, topic_type : str) -> lis
                 recommended_topics_list.append(topic_word)
 
     return recommended_topics_list
+
+
+def store_extracted_products(extracted_products : list) -> None:
+    pass
