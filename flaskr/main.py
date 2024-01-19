@@ -1,7 +1,7 @@
 from __future__ import print_function
 from flask import Flask, jsonify, render_template, request
 from difflib import SequenceMatcher
-from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict, products_objs_list
+from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict, config_dict
 from flaskr.topic_extractor import extract_topic
 from flaskr.product_extractor import extract_products, store_extracted_products
 import hashlib
@@ -13,7 +13,8 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4 
 from reportlab.lib.styles import getSampleStyleSheet
 from datetime import datetime
-
+import re
+from flaskr.get_images_model import collect_products
 
 app = Flask(__name__)
 
@@ -42,9 +43,9 @@ def store_input_for_autocomplete(user_input) -> None:
         trigrams = ngrams(words, 3)
 
         for trigram in trigrams:
-            print('first part ', trigram[0])
-            print('second part ', trigram[1])
-            print('third part ', trigram[2])
+            #print('first part ', trigram[0])
+            #print('second part ', trigram[1])
+            #print('third part ', trigram[2])
             print(' =================== ')
 
         prefix = trigram[0] + " " + trigram[1]
@@ -64,7 +65,7 @@ def similar(a, b) -> float:
 def add_record_to_payment_receipt(product_name, product_price) -> None:
    date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")   
    product_memory.append([date_time_str, product_name, product_price])
-   print('Updated memory:', product_memory)
+   #print('Updated memory:', product_memory)
 
 
 def build_receipt_template():
@@ -135,16 +136,34 @@ def do_levenstein(domain_dict : dict, user_input : str):
     return final_answer, accuracy
 
 
-def collect_products(product_type : str) -> list:
-    images_path = "static/database/" + product_type + "/"
-    products_to_return_list = []
+def match_images_intent(user_input : str) -> str:
+    # Categories:
+    categories = '(drinks|pizzas|burgers|products)'
+    product_type = ""
 
-    for product in products_objs_list:
-        if product["type"] == product_type:        
-            product["src_name"] = images_path + product["src_name"]
-            products_to_return_list.append(product)
+    regex1 = f'show me {categories}*(all your )*{categories}*'
+    regex2 = f'what (are all the |are the )*{categories}( do|can )* you offer'
+    regex3 = f'I would like to (see|know)( all )* your {categories}'
+    regex4 = f'I want to (see|know) all your {categories}'
 
-    return products_to_return_list
+    # Try with every regex:
+    regex_list = [regex1, regex2, regex3, regex4]
+
+    for regex in regex_list:        
+        matches = re.findall(regex, user_input, flags=re.I)
+        print('matches', matches)
+
+        for match in matches:
+            if "pizza" in match or "pizzas" in match:
+                product_type = "pizza"                
+            elif "burger" in match or "burgers" in match:
+                product_type = "burger"
+            elif "drink" in match or "drinks" in match:
+                product_type = "drink"
+            else:
+                product_type = ""
+        
+    return product_type
 
 
 # ======================================== Routes ========================================
@@ -218,8 +237,8 @@ def process_order():
     try:
         data = request.form
         user_input = data.get('user_input')
-        print("Data received successfully", user_input)
     except Exception as e:
+        pass
         print("Error handling POST request via /prompt endpoint", e)
 
     # Merge knowledge
@@ -229,18 +248,21 @@ def process_order():
     final_answer, accuracy = do_levenstein(domain_dict, user_input)
     product_price = calculate_total_price(final_answer)
      
-
     topic_words, topic_extraction_type = extract_topic(user_input)
-    extracted_products = extract_products(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)    
+    extracted_products = extract_products(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)
+    #print('extracted products: ', extracted_products)
     store_extracted_products(extracted_products)
 
     # Capture product type, based on what the user wants to see.
     # E.g. "Show me all your drinks"
-    product_type = "drink"
+    # Show or not show images from DB
+    product_type = match_images_intent(user_input)
+    #product_type = "drink"
 
     products_to_return = collect_products(product_type=product_type)
     print("PRODUCTS TO RETURN: ", products_to_return) 
-            
+    
+
     ''' Beautify answer '''
     final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, products_to_return]   

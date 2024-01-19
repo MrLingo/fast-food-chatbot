@@ -43,7 +43,7 @@ function displayProducts(productsOBJ){
         const productElementInner = document.createElement('img');
         productElementInner.setAttribute("class", "productImage");
         productElementInner.setAttribute("src", productsOBJ[i].src_name);
-        productElement.appendChild(productElementInner)
+        productElement.appendChild(productElementInner);
        
         // Add product description and price
         const productDescription = document.createElement('div');
@@ -109,10 +109,15 @@ $("#inputBtn").click(function(){
                   console.log("recommended topic  ", recommendedTopics[i]);
 
                   topic.innerText = recommendedTopics[i];
-                  $("#recommendedTopics").append(topic);     
+                  $("#recommendedTopics").append(topic);
                 }                  
               }
 
+            // Clean
+            if(document.querySelector('.product')){
+                document.querySelectorAll('.product').forEach(e => e.remove());
+            }
+            
             console.log(productsArr);
             displayProducts(productsArr);
         }, 

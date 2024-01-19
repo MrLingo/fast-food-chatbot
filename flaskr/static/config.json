@@ -1,3 +1,4 @@
 {
-    "autocomplete_memory_path" : "flaskr/static/autocomplete_memory.xlsx"
+    "autocomplete_memory_path" : "flaskr/static/autocomplete_memory.xlsx",
+    "extracted_products_path" : "flaskr/static/extracted_products.xlsx"
 }
