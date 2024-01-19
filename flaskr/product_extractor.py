@@ -21,9 +21,7 @@ def store_extracted_products(extracted_products : list) -> None:
     # To store every item from the list in one cell
     new_row_data = extracted_products
     wb = load_workbook(extracted_products_path)
-
     ws = wb.worksheets[0]
 
-    print('new row: ', new_row_data)
     ws.append(new_row_data)
     wb.save(extracted_products_path)

@@ -24,6 +24,5 @@ with open("flaskr/static/products.json") as file:
 def add_path_to_img_names() -> None:
     for product in products_objs_dict:
         product["src_name"] = "static/database/" + product["type"] + "/" + product["src_name"]
-        print('SRC NAME:', product["src_name"])
 
 add_path_to_img_names()

@@ -113,7 +113,7 @@ $("#inputBtn").click(function(){
                 }                  
               }
 
-            // Clean
+            // Reset product area
             if(document.querySelector('.product')){
                 document.querySelectorAll('.product').forEach(e => e.remove());
             }

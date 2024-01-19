@@ -36,6 +36,7 @@ def write_to_excel_autocomplete(prefix, suffix) -> None:
     wb.save(autocomplete_path)
 
 
+# Can be extracted outside
 def store_input_for_autocomplete(user_input) -> None:
     # If input long enough (at least three words) - build trigrams
     words = user_input.split()
@@ -62,12 +63,38 @@ def similar(a, b) -> float:
     return SequenceMatcher(None, a, b).ratio()
 
 
-def add_record_to_payment_receipt(product_name, product_price) -> None:
-   date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")   
-   product_memory.append([date_time_str, product_name, product_price])
-   #print('Updated memory:', product_memory)
+# Can be extracted outside
+# Catches how many of certain product does the user wants to order
+def catch_product_count_ordered(user_input : str) -> int:
+    regex1 = '(Give me|I want|I would like to order) (\d+)'
+    regex2 = '(and \d+|^\d+)'
+    product_count = 1
+    regex_list = [regex1, regex2]
+
+    for regex in regex_list:
+        matches = re.findall(regex, user_input, flags=re.I)
+
+        # Every tuple
+        for match in matches:
+            # Evert tuple element
+            for m in match:
+                if re.findall('\d+', m):
+                    product_count = re.findall('\d+', m)[0]
+            
+    return int(product_count)
 
 
+# Can be extracted outside
+def add_record_to_payment_receipt(user_input : str, product_name : str, product_price : str) -> None:
+   n_products = catch_product_count_ordered(user_input)
+   date_time_str = datetime.now().strftime("%m-%d-%Y, %H-%M-%S")
+  
+   print('n_products', n_products)
+   for _ in range(n_products):
+       product_memory.append([date_time_str, product_name, product_price])    
+
+
+# Can be extracted outside
 def build_receipt_template():
     # Standard stylesheet defined within reportlab itself 
     styles = getSampleStyleSheet() 
@@ -118,6 +145,7 @@ def calculate_total_price(final_answer : str):
             return price_dict[product]
 
 
+# Can be extracted outside
 def do_levenstein(domain_dict : dict, user_input : str):
     temp_dict = {}
     ''' Traversing data dict and filling a temporary one (answer : ratio). '''
@@ -136,6 +164,7 @@ def do_levenstein(domain_dict : dict, user_input : str):
     return final_answer, accuracy
 
 
+# Can be extracted outside
 def match_images_intent(user_input : str) -> str:
     # Categories:
     categories = '(drinks|pizzas|burgers|products)'
@@ -267,7 +296,7 @@ def process_order():
     final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, products_to_return]   
     
-    add_record_to_payment_receipt(final_answer.replace('coming right away', '').strip(), product_price)         
+    add_record_to_payment_receipt(user_input, final_answer.replace('coming right away', '').strip(), product_price)         
     return jsonify(response_list)
 
 
