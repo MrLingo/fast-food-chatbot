@@ -10,7 +10,7 @@ from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
 from flaskr.topic_extractor import extract_topic
 from flaskr.product_extractor import extract_products, store_extracted_products
 from flaskr.get_images_model import collect_products
-from flaskr.intent_handler import match_images_intent, catch_product_count_ordered, do_levenstein
+from flaskr.intent_handler import catch_product_count_ordered, do_levenstein, predict_intent, show_products, not_recognized
 from flaskr.receipt_builder import build_receipt_template
 from flaskr.autocomplete_handler import store_input_for_autocomplete, autocomplete_path
 
@@ -122,25 +122,40 @@ def process_order():
     domain_dict.update(general_dict)
     store_input_for_autocomplete(user_input)
 
-    # Do Levenstein and calculation of price.
-    final_answer, accuracy = do_levenstein(domain_dict, user_input)
-    product_price = calculate_total_price(final_answer)
-     
     # Extract topic.
     topic_words, topic_extraction_type = extract_topic(user_input)
     extracted_products = extract_products(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)
     store_extracted_products(extracted_products)
 
+    # Classify user intent.
+    predicted_intent = predict_intent(user_input)
+
     '''
     Capture product type, based on what the user wants to see and
     display the respective product's images.
     '''
-    product_type = match_images_intent(user_input)
+    product_type = ''
+    accuracy = 0
+    product_price = 0.00
+
+    if 'other' in predicted_intent.lower():
+        final_answer = not_recognized()
+
+    if 'show' in predicted_intent.lower():
+        product_type = show_products(predicted_intent, user_input)
+        final_answer = 'Sure, please scroll down to see.'       
+
+    if 'order' in predicted_intent.lower():
+        # Do Levenstein and calculation of price.
+        final_answer, accuracy = do_levenstein(domain_dict, user_input)
+        product_price = calculate_total_price(final_answer)
+        final_answer += ' coming right away'
+        
+
     products_to_return = collect_products(product_type=product_type)
-    print('PRODUCTS TO RETURN: ', products_to_return) 
-    
+    print('PRODUCTS TO RETURN: ', products_to_return)
+
     # Prepare the data for UI.
-    final_answer += ' coming right away'
     response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, products_to_return]   
     
     add_record_to_payment_receipt(user_input, final_answer.replace('coming right away', '').strip(), product_price)         
