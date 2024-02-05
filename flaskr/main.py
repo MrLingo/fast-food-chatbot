@@ -142,7 +142,7 @@ def process_order():
         final_answer = not_recognized()
 
     if 'show' in predicted_intent.lower():
-        product_type = show_products(predicted_intent, user_input)
+        product_type, specific_product = show_products(predicted_intent, user_input)    
         final_answer = 'Sure, please scroll down to see.'       
 
     if 'order' in predicted_intent.lower():
@@ -152,7 +152,7 @@ def process_order():
         final_answer += ' coming right away'
         
 
-    products_to_return = collect_products(product_type=product_type)
+    products_to_return = collect_products(product_type=product_type, specific_product=specific_product)
     print('PRODUCTS TO RETURN: ', products_to_return)
 
     # Prepare the data for UI.

@@ -1,6 +1,7 @@
 import re
 from difflib import SequenceMatcher
 import joblib
+from flaskr.knowledge_retreiver import domain_dict
 
 
 SHOW_ALL_PRODUCTS_INTENT = 'Show all products'
@@ -38,10 +39,13 @@ def not_recognized() -> str:
     return 'I am sorry, but I don\'t know how to answer that'
 
 
-def show_products(intent: str, user_input: str) -> str:
+def show_products(intent: str, user_input: str) -> tuple[str, str]:
+    specific_product: str = ''
+
     if intent == SHOW_ALL_PRODUCTS_INTENT:
         print('show all products')
-        return 'show_all'                    
+        return 'show_all', ''
+                        
     elif intent == SHOW_PRODUCT_CATEGORY_INTENT:
         print('show product category')
         matches = re.findall(f'({DRINK_CATEGORY}|{PIZZA_CATEGORY}|{BURGER_CATEGORY})+', user_input)
@@ -58,27 +62,20 @@ def show_products(intent: str, user_input: str) -> str:
                     product_type = ''
         else:
             product_type = ''
-        return product_type    
-    elif intent == SHOW_SPECIFIC_PRODUCT_INTENT:
-        extracted_product = re.findall('', intent)
-        print('show specific product') # -> traverse the whole domain dict for keyword match with the one extracted from intent. If domain dict product is inside intent -> match
-
-        # for product_intent in domain_dict:
-        #     if product_intent.lower() in extracted_product[0]
-        #         return product_name                              
-
-        # Then, after returned -> 
-        # for product in products_objs_dict 
-        #     if product['name'].lower() == product_name:
-        #         products_to_return = [product]
-
-        return 'specific_product' 
+        return product_type, specific_product
+        
+    elif intent == SHOW_SPECIFIC_PRODUCT_INTENT:        
+        print('show specific product')        
+        specific_product, _ = do_levenstein(domain_dict, user_input)
+        return 'specific_product', specific_product
+    
     elif intent == ORDER_PRODUCT_INTENT:
         print('order_product')
-        return 'order_product' # -> do_levenstein
+        return 'order_product', specific_product
+    
     else:
         print('other')
-        return 'other'
+        return 'other', specific_product
 
 
 # Catches how many of certain product does the user wants to order.
@@ -96,8 +93,7 @@ def catch_product_count_ordered(user_input: str) -> int:
             # Evert tuple element
             for m in match:
                 if re.findall('\d+', m):
-                    product_count = re.findall('\d+', m)[0]
-            
+                    product_count = re.findall('\d+', m)[0]            
     return int(product_count)
 
 
@@ -115,7 +111,6 @@ def do_levenstein(domain_dict: dict, user_input: str) -> tuple[str, int]:
     # Show accuracy in %.
     accuracy = round(accuracy, 1)
     accuracy = accuracy * 100
-
     return final_answer, accuracy
 
 
