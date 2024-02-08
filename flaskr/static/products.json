@@ -1,30 +1,170 @@
 [
+  {
+    "src_name": "pepperoni.jpg",
+    "type" : "pizza",
+    "name" : "pepperoni",
+    "price" : 8,
+    "ingredients" : "Pizza Dough, Cheese, Pizza Sauce, Pepperoni"
+  },
+  {
+    "src_name": "margherita.jpg",
+    "type" : "pizza",
+    "name" : "margherita",
+    "price" : 8,
+    "ingredients" : "Tomato sauce, mozzarella cheese, fresh basil."
+  },
+  {
+    "src_name": "white_pizza.jpg",
+    "type" : "pizza",
+    "name" : "white pizza",
+    "price" : 9,
+    "ingredients" : "Ricotta cheese, mozzarella cheese, garlic, olive oil, salt, pepper."
+  },
+  {
+    "src_name": "caesar_salad_pizza.jpg",
+    "type" : "pizza",
+    "name" : "caesar_salad_pizza",
+    "price" : 10,
+    "ingredients" : "Grilled chicken, romaine lettuce, Caesar dressing, Parmesan cheese."
+  },
+  {
+    "src_name": "pizza_pockets.jpg",
+    "type" : "pizza",
+    "name" : "pizza pockets",
+    "price" : 4,
+    "ingredients" : "Pizza dough filled with marinara sauce, mozzarella cheese, and assorted toppings."
+  },
   { 
     "src_name" : "calzone.jpg",
     "name": "Calzone",
     "type" : "pizza",
-    "price" : 50,
-    "ingredients:" : "cheese, ham etc. etc."
+    "price" : 8,
+    "ingredients:" : "Pizza dough filled with ricotta cheese, mozzarella cheese, and assorted toppings, folded over and baked."
   }, 
   {
-    "src_name": "pepperoni.jpg",
+    "src_name": "griddled_california_pizzas.jpg",
     "type" : "pizza",
-    "name" : "Pepperoni",
-    "price" : 20,
-    "ingredients" : "cheese, lots of tomato, garlic etc."
+    "name" : "griddled california pizzas",
+    "price" : 10,
+    "ingredients" : "hin crust pizza topped with fresh California ingredients like avocado, arugula, and sun-dried tomatoes."
   },
+  {
+    "src_name": "bruscheta_pizzaiola.jpg",
+    "type" : "pizza",
+    "name" : "bruscheta pizzaiola",
+    "price" : 9,
+    "ingredients" : "Tomato sauce, mozzarella cheese, diced tomatoes, garlic, basil, olive oil, balsamic glaze."
+  },
+  {
+    "src_name": "breakfast_pizza.jpg",
+    "type" : "pizza",
+    "name" : "breakfast pizza",
+    "price" : 9,
+    "ingredients" : "Pizza dough topped with eggs, cheese, bacon or sausage, and vegetables."
+  },
+  {
+    "src_name": "venetian_rolled.jpg",
+    "type" : "pizza",
+    "name" : "venetian rolled",
+    "price" : 10,
+    "ingredients" : "Pizza dough rolled with assorted fillings like meats, cheeses, and vegetables."
+  },
+  {
+    "src_name": "gluten-free_mushroom.jpg",
+    "type" : "pizza",
+    "name" : "gluten-free Mushroom",
+    "price" : 12,
+    "ingredients" : "Gluten-free crust topped with tomato sauce, mozzarella cheese, mushrooms, and other toppings."
+  },
+  {
+    "src_name": "wingless_buffalo_chicken.jpg",
+    "type" : "pizza",
+    "name" : "wingless buffalo chicken",
+    "price" : 10,
+    "ingredients" : "Pizza topped with buffalo chicken, buffalo sauce, blue cheese or ranch dressing."
+  },
+
+
+  {
+    "src_name": "big_mac.jpg",
+    "type" : "burger",
+    "name" : "big mac",
+    "price" : 4,
+    "ingredients" : "Two all-beef patties, special sauce, lettuce, cheese, pickles, onions, sesame seed bun."
+  },
+  {
+    "src_name": "quarter_pounder.jpg",
+    "type" : "burger",
+    "name" : "quarter pounder",
+    "price" : 4,
+    "ingredients" : "Quarter-pound beef patty, cheese, onions, pickles, ketchup, mustard, sesame seed bun."
+  },
+  {
+    "src_name": "cheeseburger.jpg",
+    "type" : "burger",
+    "name" : "cheeseburger",
+    "price" : 2,
+    "ingredients" : "Beef patty, cheese, lettuce, tomato, pickles, onions, sesame seed bun."
+  },
+  {
+    "src_name": "hamburger.jpg",
+    "type" : "burger",
+    "name" : "hamburger",
+    "price" : 2,
+    "ingredients" : "Beef patty, lettuce, tomato, pickles, onions, sesame seed bun."
+  },
+
+
+  {
+    "src_name": "bacon_ranch_salad.jpg",
+    "type" : "salad",
+    "name" : "bacon ranch salad",
+    "price" : 5,
+    "ingredients" : "Lettuce, bacon, cherry tomatoes, shredded cheese, ranch dressing."
+  },
+  {
+    "src_name": "side_salad.jpg",
+    "type" : "salad",
+    "name" : "side salad",
+    "price" : 2,
+    "ingredients" : "Mixed greens, tomatoes, cucumbers, choice of dressing."
+  },
+
+
   {
     "src_name": "coca-cola.jpg",
     "type" : "drink",
-    "name" : "Coca-cola",
-    "price" : 8,
-    "ingredients" : "sugar"
+    "name" : "coca-cola",
+    "price" : 1,
+    "ingredients" : "Carbonated water, sugar, caramel color, phosphoric acid, natural flavors, caffeine."
   },
+  {
+    "src_name": "sprite.jpg",
+    "type" : "drink",
+    "name" : "sprite",
+    "price" : 1,
+    "ingredients" : "Carbonated water, sugar, citric acid, natural flavors, sodium citrate."
+  },
+  {
+    "src_name": "fanta.jpg",
+    "type" : "drink",
+    "name" : "fanta",
+    "price" : 1,
+    "ingredients" : "Carbonated water, high fructose corn syrup, citric acid, natural flavors, sodium benzoate."
+  },
+  {
+    "src_name": "orange.jpg",
+    "type" : "drink",
+    "name" : "orange",
+    "price" : 1,
+    "ingredients" : "Orange juice, carbonated water, sugar, citric acid, natural flavors."
+  },
+
   {
     "src_name": "dasani_water.jpg",
     "type" : "drink",
     "name" : "dasani water",
-    "price" : 5,
-    "ingredients" : "water"
+    "price" : 1,
+    "ingredients" : "Purified water, magnesium sulfate, potassium chloride, salt."
   }
 ]
