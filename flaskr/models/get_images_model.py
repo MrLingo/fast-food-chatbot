@@ -1,4 +1,4 @@
-from flaskr.knowledge_retreiver import products_objs_dict
+from flaskr.models.knowledge_retreiver_model import products_objs_dict
 
 
 def collect_products(product_type: str, specific_product: str) -> list:

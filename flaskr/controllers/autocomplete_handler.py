@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 from nltk import ngrams
-from flaskr.knowledge_retreiver import config_dict
+from flaskr.models.knowledge_retreiver_model import config_dict
 
 
 autocomplete_path: str = config_dict['autocomplete_memory_path']

@@ -6,13 +6,13 @@ from datetime import datetime
 from flask import Flask, jsonify, render_template, request
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.lib.pagesizes import A4 
-from flaskr.knowledge_retreiver import domain_dict, general_dict, price_dict
-from flaskr.topic_extractor import extract_topic
-from flaskr.product_extractor import extract_products, store_extracted_products
-from flaskr.get_images_model import collect_products
-from flaskr.intent_handler import catch_product_count_ordered, do_levenstein, predict_intent, show_products, not_recognized
-from flaskr.receipt_builder import build_receipt_template
-from flaskr.autocomplete_handler import store_input_for_autocomplete, autocomplete_path
+from flaskr.models.knowledge_retreiver_model import domain_dict, general_dict, price_dict
+from flaskr.controllers.topic_extractor import extract_topic
+from flaskr.models.product_extractor_model import extract_products, store_extracted_products
+from flaskr.models.get_images_model import collect_products
+from flaskr.controllers.intent_handler import catch_product_count_ordered, do_levenstein, predict_intent, show_products, not_recognized
+from flaskr.controllers.receipt_builder import build_receipt_template
+from flaskr.controllers.autocomplete_handler import store_input_for_autocomplete, autocomplete_path
 
 
 app = Flask(__name__)
@@ -57,15 +57,13 @@ def autocomplete():
     words = user_input.split()
     if len(words) >= 2:
         bigrams = ngrams(words, 2)
-
-        ''' 
-        Uncomment for debugging 
-        for bigram in bigrams:
-            print('PREFIX INPUT: ', bigram[0])
-            print('SUFFIX INPUT: ', bigram[1])
-            print(' =================== ')
-        '''
          
+        # Uncomment for debugging 
+        # for bigram in bigrams:
+        #     print('PREFIX INPUT: ', bigram[0])
+        #     print('SUFFIX INPUT: ', bigram[1])
+        #     print(' =================== ')
+                 
         autocmpl_df = pd.read_excel(autocomplete_path, sheet_name='main')
         row = autocmpl_df[autocmpl_df['Prefix'] == user_input]
 
@@ -137,6 +135,7 @@ def process_order():
     product_type = ''
     accuracy = 0
     product_price = 0.00
+    specific_product = ''
 
     if 'other' in predicted_intent.lower():
         final_answer = not_recognized()

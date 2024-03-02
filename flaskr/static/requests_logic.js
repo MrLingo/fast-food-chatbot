@@ -1,3 +1,6 @@
+var inputFieldHeight = 3;
+
+
 // Search as you type - autocompletion
 $('#userInput').keyup(function(e) {
     console.log("Pressed key");
@@ -11,7 +14,6 @@ $('#userInput').keyup(function(e) {
         },                                
         success: function(result){
             responseStr = JSON.stringify(result[0]);
-            //console.log(result[0]);
 
             // Create suggestion drop down
             if(result[0] != "No suggestion found"){
@@ -30,6 +32,7 @@ $("#suggestionSpan").click(function(){
     console.log("Using suggestion");
     $("#userInput").val($("#userInput").val() + " " + $('#suggestionSpan').text());
 });
+
 
 
 function displayProducts(productsOBJ){                  

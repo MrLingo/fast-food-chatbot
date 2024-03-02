@@ -1,5 +1,5 @@
 from openpyxl import load_workbook
-from flaskr.knowledge_retreiver import config_dict
+from flaskr.models.knowledge_retreiver_model import config_dict
 
 
 extracted_products_path: str = config_dict['extracted_products_path']

@@ -1,7 +1,7 @@
 import re
 from difflib import SequenceMatcher
 import joblib
-from flaskr.knowledge_retreiver import domain_dict
+from flaskr.models.knowledge_retreiver_model import domain_dict
 
 
 SHOW_ALL_PRODUCTS_INTENT = 'Show all products'
