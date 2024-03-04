@@ -1,3 +1,10 @@
+/*
+
+#e6ac00 -> bg
+#806000 -> other
+
+*/  
+  
   @font-face {
     font-family: "mainFont";
     src: url("../static/afterclap.otf"); 
@@ -9,13 +16,13 @@
   }
 
   body {
-    background-color:#ffcc66;
+    background-color:#e6ac00;    
   }
 
   p, span {
-    font-family: ariel;
+    font-family: bobFont;
     font-size: 20px;
-    color: #ffcc66;
+    color: #e6ac00;
   }
 
   .container {
@@ -23,24 +30,30 @@
   }
 
   #suggestion{
-    border: 5px #ff3300;        
+    border: 2px solid #806000;        
     border-radius: 10px;
     margin-top: -1em;
+    margin-bottom: 1em;
     min-height: 5em;
     background: white;
     display: none;
   }
 
+  #suggestionSpan{
+    color:#806000;
+  }
+
   #copyrightText{
-    margin-top: 9em;
+    font-family: bobFont;
+    margin-top: 4em;
     font-size: 25px;
     font-weight: bold;
-    color:#ff3300;
+    color:#806000;
   }
 
   h1 {
     font-family: bobFont;
-    color: #ff3300;
+    color: #806000;
     margin-top: 10px;
   }
   
@@ -51,8 +64,8 @@
   #userInput {
     padding-left: 1em;
     /* margin-top: 1em; */
-    font-family: ariel;
-    color: black;
+    font-family: bobFont;
+    color: #806000;
     width: 100%;
     height: 2.5em;
     max-height: 5em;
@@ -62,26 +75,31 @@
     box-shadow: 5px 5px 8px #666;
     border-radius: 10px;
     resize: vertical;
+    line-height: 1.9em;
   }
 
   #userInput::placeholder {
-    line-height: 2em;
+    line-height: 2.1em;
+    font-weight: bold;
+    font-family: bobFont;
+    color: #806000;    
   }
 
   #userInput:focus{
     outline: none;
-    border: 2px solid #ff3300;
+    border: 2px solid #806000;
   }
 
   #recommendedTopics{
     height: 5em;
+    color: #806000;
   }
 
   .recommendedTopic{
     padding: 0.5em;
     float:left;
-    background: #ff3300;
-    color: #ffcc66;
+    background: #806000;
+    color: #e6ac00;
     width: 5em;
     max-height: 5em;
     cursor: pointer;
@@ -93,66 +111,76 @@
 
   #responseText {
     font-size:20px;
-    color:#ffcc66;
+    color:#e6ac00;
     word-wrap: break-word;
     margin-top: 35px;
   }
 
   #inputBtn {
-    background: #ff3300;
+    background: #806000;
     display: inline-block;
     padding-top: 0.6em;
-    color: #ffcc66;
+    color: #e6ac00;
     font-family: bobFont;
     width: 15em;
     height: 50px;
-    border-width: 5px;
-    border-color: #ff3300;
-    border-radius:10px;	
-    cursor: pointer;
+    border: 3.5px solid transparent;
+    border-radius: 10px;	
+    cursor: pointer;    
+  }
+
+  #inputBtn:hover {
+    border: 3.5px solid white;
   }
 
   #generateReceiptButton {
     margin-top: 3em;
-    background: #ff3300;
+    background: #806000;
     display: inline-block;
-    padding-top: 0.8em;
-    color: #ffcc66;
+    padding-top: 0.5em;
+    color: #e6ac00;
     font-family: bobFont;
     width: 15em;
     height: 50px;
-    border-width: 5px;
-    border-color: #ff3300;
-    border-radius:10px;	
+    border: 3.5px solid transparent;
+    border-radius: 10px;	
     cursor: pointer;
+  }
+
+  #generateReceiptButton:hover{
+    border: 3.5px solid white;
   }
 
   #productsList {
     min-width: 20em;
     max-width: 120em;
     min-height: 20em;
-    height: 25em;
+    max-height: 60em;
     margin-top: 5em;
-    border: 5px solid #ff3300;
-    border-radius: 12px;
+    border: 2px solid #806000;    
     overflow: scroll;
+    scrollbar-color: #806000 #e6ac00;  /* scroll bar, scroll area */
+    scrollbar-width:auto;
   }
 
   .product {
     float:left;
+    margin-left: 7em;
   }
 
   .productDescription{
-    display:none;
-    background : #ff3300;
+    display: none;
+    background : #806000;
     word-wrap: break-word;
+    width: 15em;
+    height: 12em;
     margin-left : 1em;
-    color: #ffcc66;
+    color: #e6ac00;
     font-weight: bold;
     border-radius: 12px;
   }
 
-  .productImage:hover + .productDescription {
+  /*.productImage:hover + */.productDescription {
     display: block;
     margin-top: 1em;
   }
@@ -164,7 +192,7 @@
     height: 15em;
     margin-top: 1em;
     margin-left: 1em;
-    border: solid #ff3300;
+    border: solid #806000;
     border-radius: 12px;
   }
 
@@ -174,13 +202,13 @@
 
   #responseField {
     min-height: 20em;
-    margin-top: 5em;
-    background-color:#ff3300;
+    margin-top: 10px;
+    background-color:#806000;
     border:solid;
     border:10px;
     border-radius:10px;
   }
 
   #totalPrice {
-    color: #ffcc66;
+    color: #e6ac00;
   }

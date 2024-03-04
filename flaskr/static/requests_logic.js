@@ -27,6 +27,7 @@ $('#userInput').keyup(function(e) {
     });
 });
 
+
 // Append suggestion to the input field
 $("#suggestionSpan").click(function(){
     console.log("Using suggestion");
