@@ -14,6 +14,7 @@ Chatbot that operates inside the fast food domain.
 - Flask
 - Python >= 3.7
 - Anaconda
+- NLTK (AveragedPerceptronTagger and PunktSentenceTokenizer) 
 
 ## Setup and run:
 1. Unzip the archive\clone the repo

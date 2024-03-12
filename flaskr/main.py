@@ -7,7 +7,7 @@ from flask import Flask, jsonify, render_template, request
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.lib.pagesizes import A4 
 from flaskr.models.knowledge_retreiver_model import domain_dict, general_dict, price_dict
-from flaskr.controllers.topic_extractor import extract_topic
+from flaskr.controllers.topic_extractor import nouns_extraction
 from flaskr.models.product_extractor_model import extract_products, store_extracted_products
 from flaskr.models.get_images_model import collect_products
 from flaskr.controllers.intent_handler import catch_product_count_ordered, do_levenstein, predict_intent, show_products, not_recognized
@@ -121,7 +121,7 @@ def process_order():
     store_input_for_autocomplete(user_input)
 
     # Extract topic.
-    topic_words, topic_extraction_type = extract_topic(user_input)
+    topic_words, topic_extraction_type = nouns_extraction(user_input)
     extracted_products = extract_products(topic_words=topic_words, products_dict=price_dict, topic_type=topic_extraction_type)
     store_extracted_products(extracted_products)
 

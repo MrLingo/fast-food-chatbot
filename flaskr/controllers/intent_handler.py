@@ -16,9 +16,9 @@ PIZZA_CATEGORY = 'pizza'
 
 
 def predict_intent(user_input: str) -> str:
-    # Load the model and it's vectorizer.
-    nb_classifier = joblib.load('model/intent_recognition_model_viki.joblib')
-    vectorizer = joblib.load('model/intent_recognition_model_viki_vectorizer.joblib')
+    # Deserialize the model and it's vectorizer.
+    nb_classifier = joblib.load('ml_models/intent_recognition_model_viki.joblib')
+    vectorizer = joblib.load('ml_models/intent_recognition_model_viki_vectorizer.joblib')
 
     X_new = vectorizer.transform([user_input])   
     predicted_intent = nb_classifier.predict(X_new)
