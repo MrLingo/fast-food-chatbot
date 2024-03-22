@@ -1,15 +1,13 @@
 # Fast food chatbot - Viki
 ![Image description](flaskr/static/avatar.PNG)
 
-Chatbot that operates inside the fast food domain.
+A non-DL chatbot that operates inside the fast food domain.
 
 ## How it works:
-
-How does Viki works
 1. Viki takes user input
 2. The input is splitted into tri-grams and then the prefixes and suffix are stored in seperate columns in autocomplete spredsheet.
-   The spreadsheet is accessed and rows from it retreived on every captured button press event, implementing an autocomplete mechanism.
-4. Extract the topic and stores it for topic analysis, that could be performed, based on accumulated topics over time.
+   The spreadsheet is accessed and rows from it, are retreived on every captured button press event, implementing an autocomplete mechanism.
+4. Extracts the topic and stores it for topic analysis, that could be performed, based on the accumulated topics over time.
 5. Uses multi-class classification model to determine the intent of the user. The intent falls into one of the following categories:
   - "Show all products"
   - "Show specific product"
@@ -29,14 +27,12 @@ How does Viki works
 
 8. After the user orders the product he wants, clicking the "Generate receipt" button will build receipt pdf doc, which could be then downloaded by the user.
 
-
 # Screenshots
 ![Order X number of [product]](flaskr/static/viki_demo_1.PNG)
 ![Show product category](flaskr/static/viki_demo_2.PNG)
 ![All pizzas](flaskr/static/viki_demo_3.PNG)
 ![Show specific product](flaskr/static/viki_demo_4.PNG)
 ![Generated receipt from the first screenshot](flaskr/static/viki_demo_5.png)
-
 
 ## Prerequisets:
 - Flask
