@@ -1,5 +1,5 @@
 # Fast food chatbot - Viki
-![Image description](flaskr/static/avatar.PN)
+![Image description](flaskr/static/avatar.PNG)
 
 Chatbot that operates inside the fast food domain.
 
