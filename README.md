@@ -35,7 +35,7 @@ How does Viki works
 ![Show product category](flaskr/static/viki_demo_2.PNG)
 ![All pizzas](flaskr/static/viki_demo_3.PNG)
 ![Show specific product](flaskr/static/viki_demo_4.PNG)
-![Generated receipt from the first screenshot](flaskr/static/viki_demo_5.PNG)
+![Generated receipt from the first screenshot](flaskr/static/viki_demo_5.png)
 
 
 ## Prerequisets:
