@@ -157,7 +157,8 @@ def process_order():
     # Prepare the data for UI.
     response_list = [final_answer, accuracy, total_price, topic_words, topic_extraction_type, products_to_return]   
     
-    add_record_to_payment_receipt(user_input, final_answer.replace('coming right away', '').strip(), product_price)         
+        if 'order' in predicted_intent.lower():
+            add_record_to_payment_receipt(user_input, final_answer.replace('coming right away', '').strip(), product_price)         
     return jsonify(response_list)
 
 
