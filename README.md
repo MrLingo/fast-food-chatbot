@@ -14,10 +14,10 @@ A non-DL chatbot that operates inside the fast food domain.
   - "Show product category"
   - "Order product"
   - "Other"
-6. If the recognized intent is "Order product", Viki determines the count of the desired product in the user input and adds the respective record number in the final receipt document. ("I want to order 3 calzones please" -> 3 rows of calzone added to receipt) 
-    If the recoginzed intent is "Show specific products", image of the mentioned product in the input, along with ingredients information is shown.
-    If the recoginzed intent is "Show all products", every image of every product that Viki offers is shown.
-    If the recoginzed intent is "Show product category", images of the mentioned product category is shown.
+6. If the recognized intent is "Order product", Viki determines the count of the desired product in the user input and adds the respective record number in the final receipt document. ("I want to order 3 calzones please" -> 3 rows of calzone added to receipt)\
+    If the recoginzed intent is "Show specific products", image of the mentioned product in the input, along with ingredients information is shown.\
+    If the recoginzed intent is "Show all products", every image of every product that Viki offers is shown.\
+    If the recoginzed intent is "Show product category", images of the mentioned product category is shown.\
     If the recoginzed intent is "Other", Viki will respond, according to her knowledge base about topics, different from the domain.
 
 7. If the intent is related to ordering a product, then the chatbot performs the following:\
