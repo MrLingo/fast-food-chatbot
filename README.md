@@ -22,9 +22,9 @@ How does Viki works
     If the recoginzed intent is "Show product category", images of the mentioned product category is shown.
     If the recoginzed intent is "Other", Viki will respond, according to her knowledge base about topics, different from the domain.
 
-7. If the intent is related to ordering a product, then the chatbot performs the following:
-  7.1 Traverse a dictionary with inputs that she is familiar with and responds with approriate answer(Question : Answer), using Levenshtein distance between the user input and her closest guess. That way the user may not type the exact question and will still be understood.
-  7.2 Temporary dictionary is created storing the best answers, picked from step 2, correspoding with their Levenshtein ratios. (Answer : Ratio)  
+7. If the intent is related to ordering a product, then the chatbot performs the following:\
+  7.1 Traverse a dictionary with inputs that she is familiar with and responds with approriate answer(Question : Answer), using Levenshtein distance between the user input and her closest guess. That way the user may not type the exact question and will still be understood.\
+  7.2 Temporary dictionary is created storing the best answers, picked from step 2, correspoding with their Levenshtein ratios. (Answer : Ratio)\
   7.3 Select the answer with the highest ratio and display it to the user, while also calculating total price in the process.
 
 8. After the user orders the product he wants, clicking the "Generate receipt" button will build receipt pdf doc, which could be then downloaded by the user.
