@@ -1,5 +1,5 @@
 # Fast food chatbot - Viki
-![Image description](avatar.PNG)
+![Image description](flaskr/static/avatar.PNG)
 
 Chatbot that operates inside the fast food domain.
 
@@ -31,11 +31,11 @@ How does Viki works
 
 
 # Screenshots
-![Order X number of [product]](viki_demo_1.PNG)
-![Show product category](viki_demo_2.PNG)
-![All pizzas](viki_demo_3.PNG)
-![Show specific product](viki_demo_4.PNG)
-![Generated receipt from the first screenshot](viki_demo_5.PNG)
+![Order X number of [product]](flaskr/static/viki_demo_1.PNG)
+![Show product category](flaskr/static/viki_demo_2.PNG)
+![All pizzas](flaskr/static/viki_demo_3.PNG)
+![Show specific product](flaskr/static/viki_demo_4.PNG)
+![Generated receipt from the first screenshot](flaskr/static/viki_demo_5.PNG)
 
 
 ## Prerequisets:
