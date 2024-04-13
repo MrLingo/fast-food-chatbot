@@ -28,13 +28,6 @@ A non-DL chatbot that operates inside the fast food domain.
 
 8. After the user orders the product he wants, clicking the "Generate receipt" button will build receipt pdf doc, which could be then downloaded by the user.
 
-# Screenshots
-![Order X number of [product]](flaskr/static/viki_demo_1.PNG)
-![Show product category](flaskr/static/viki_demo_2.PNG)
-![All pizzas](flaskr/static/viki_demo_3.PNG)
-![Show specific product](flaskr/static/viki_demo_4.PNG)
-![Generated receipt from the first screenshot](flaskr/static/viki_demo_5.png)
-
 ## Prerequisets:
 - Flask
 - Python >= 3.7
